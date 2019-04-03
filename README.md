@@ -36,7 +36,7 @@ class UIFragment:Fragment(),UITemplate {
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="300" height="600" alt="模板UI样式"/>
 
 * 网络状态监测
-#### 只需要Activity中调用NetWorkManager.run()
+#### 只需要在Activity中调用NetWorkManager.run()
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,3 +55,4 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
 }
 ```
+<img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="300" height="600" alt="模板UI样式"/>
