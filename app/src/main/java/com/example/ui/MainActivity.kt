@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
     override val mEmptyResId: Int by lazy {
         R.drawable.ic_empty
     }
-    override val mScaffold: Boolean = false
+//    override val mScaffold: Boolean = false
     override val centerTitle: String = "Main"
     override val layoutResId: Int = R.layout.activity_main
     override fun onCreate(savedInstanceState: Bundle?) {
