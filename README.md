@@ -57,8 +57,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="300" height="600" alt="网络监听"/>
 * 添加状态View
+
 #### 让Activity or Fragment实现UIStateCallback接口
-##### > UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
+##### UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
 
 ```
 class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
@@ -93,3 +94,5 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 }
 
 ```
+<img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="300" height="600" alt="状态监听"/>
+
