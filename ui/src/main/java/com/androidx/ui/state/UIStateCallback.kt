@@ -38,9 +38,15 @@ interface UIStateCallback {
             mStateImageView.setBackgroundResource(mUnConnectedResId)
         }
         mUIState.observe(activity, Observer {
+
             when (it!!) {
                 UIState.LOADING -> setLoadingState(mStateImageView)
-                UIState.EMPTY-> mStateImageView.setBackgroundResource(mEmptyResId)
+                UIState.EMPTY-> {
+                    if (mStateImageView.visibility == View.GONE){
+                        mStateImageView.visibility = View.VISIBLE
+                    }
+                    mStateImageView.setBackgroundResource(mEmptyResId)
+                }
                 UIState.DEFAULT-> mStateImageView.visibility = View.GONE
             }
         })

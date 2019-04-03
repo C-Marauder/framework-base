@@ -36,7 +36,11 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
                     }
                     UIStateManager.changeUIState("MainActivity",UIState.DEFAULT)
                 }
-                NetWorkState.LOST->alertMsg("网络开小差了！"){}
+                NetWorkState.LOST->{
+                    alertMsg("网络开小差了！"){}
+                    UIStateManager.changeUIState("MainActivity",UIState.EMPTY)
+
+                }
             }
         }
         setContentView(createContentView())
