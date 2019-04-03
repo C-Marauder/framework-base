@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
             when(state){
                 NetWorkState.CONNECTED-> {
                     mNetWorkInfo?.let {
-                        Log.e("==",it.detailedState.name)
-                        Log.e("==",it.subtypeName)
-                        Log.e("==","${it.subtype}")
+
                         alertMsg("网络已连接！"){}
                     }
                     UIStateManager.changeUIState("MainActivity",UIState.DEFAULT)
