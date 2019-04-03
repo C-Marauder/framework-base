@@ -1,4 +1,4 @@
-package com.androidx.ui
+package com.androidx.ui.template
 
 class UIConfig {
 
@@ -14,12 +14,12 @@ class UIConfig {
 
     class Builder{
         companion object {
-            val builder:Builder by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
+            val builder: Builder by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
                 Builder()
             }
         }
         fun clearElevation(isClear:Boolean)=apply {
-            UIConfig.clearElevation = isClear
+            clearElevation = isClear
         }
         fun behavior(canScroll:Boolean) = apply {
             UIConfig.canScroll = canScroll
@@ -32,7 +32,7 @@ class UIConfig {
         }
 
         fun navIcon(icon:Int)=apply {
-            UIConfig.navIcon = icon
+            navIcon = icon
         }
 
     }

@@ -1,4 +1,4 @@
-package com.androidx.ui
+package com.androidx.ui.template
 
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.androidx.ui.R
+import com.androidx.ui.state.UIStateCallback
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 
@@ -24,6 +27,10 @@ interface UITemplate {
         @SuppressLint("ResourceType")
         @IdRes
         private const val appId = 0x1
+
+        @SuppressLint("ResourceType")
+        @IdRes
+        private const val mStateViewId=0x2
 
     }
     val layoutResId: Int
@@ -60,7 +67,9 @@ interface UITemplate {
         return AppBarLayout(parent.context).apply {
             id = appId
             if (UIConfig.clearElevation){
-                this.stateListAnimator = AnimatorInflater.loadStateListAnimator(parent.context,R.animator.appbar_elevation)
+                this.stateListAnimator = AnimatorInflater.loadStateListAnimator(parent.context,
+                    R.animator.appbar_elevation
+                )
 
             }
         }
@@ -109,7 +118,18 @@ interface UITemplate {
         appBarLayout.addView(toolbar, -1, -2)
         rootView.addView(appBarLayout, -1, -2)
         val content = inflateContentView(rootView)
+
         rootView.addView(content)
+        var mStateImageView:AppCompatImageView?=null
+        if (this is UIStateCallback){
+            //val mStateContainer = FrameLayout(rootView.context)
+            mStateImageView = AppCompatImageView(rootView.context).apply {
+                id = mStateViewId
+            }
+            mStateImageView.setBackgroundColor(ContextCompat.getColor(rootView.context,android.R.color.background_light))
+            rootView.addView(mStateImageView)
+            observeState(mStateImageView)
+        }
         if (mScaffold) {
             if (!UIConfig.canScroll) {
                 val lp = appBarLayout.getChildAt(0).layoutParams as AppBarLayout.LayoutParams
@@ -118,6 +138,14 @@ interface UITemplate {
             val contentLp = content.layoutParams as CoordinatorLayout.LayoutParams
             contentLp.behavior = AppBarLayout.ScrollingViewBehavior()
             content.layoutParams = contentLp
+            mStateImageView?.let {
+                val mStateImageViewLp = mStateImageView.layoutParams as CoordinatorLayout.LayoutParams
+                mStateImageViewLp.behavior = AppBarLayout.ScrollingViewBehavior()
+                mStateImageViewLp.gravity = Gravity.CENTER
+                mStateImageView.layoutParams = mStateImageViewLp
+
+            }
+
 
         } else {
             val constraintSet = ConstraintSet()
@@ -132,6 +160,14 @@ interface UITemplate {
             constraintSet.connect(content.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END)
             constraintSet.connect(content.id,ConstraintSet.TOP,appBarLayout.id,ConstraintSet.BOTTOM)
             constraintSet.connect(content.id,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM)
+            mStateImageView?.let {
+                constraintSet.connect(it.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START)
+                constraintSet.connect(it.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END)
+                constraintSet.connect(it.id,ConstraintSet.TOP,content.id,ConstraintSet.TOP)
+                constraintSet.connect(it.id,ConstraintSet.BOTTOM,content.id,ConstraintSet.BOTTOM)
+
+            }
+
             constraintSet.applyTo(rootView)
         }
 

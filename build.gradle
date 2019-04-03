@@ -24,8 +24,15 @@ allprojects {
         jcenter()
         
     }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
+
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+//tasks.getByPath(":ui:releaseAndroidJavadocs").enabled = false
+

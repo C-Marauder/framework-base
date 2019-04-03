@@ -1,24 +1,50 @@
 package com.example.ui
 
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper
-import com.androidx.ui.UITemplate
-import com.androidx.ui.adapter.AppAdapter
-import com.androidx.ui.dialog.AppDialog
-import com.androidx.ui.initRecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.androidx.ui.alertMsg
+import com.androidx.ui.network.NetWorkManager
+import com.androidx.ui.network.NetWorkState
+import com.androidx.ui.state.UIState
+import com.androidx.ui.state.UIStateCallback
+import com.androidx.ui.state.UIStateManager
+import com.androidx.ui.template.UITemplate
 
-class MainActivity : AppCompatActivity(),UITemplate {
+class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
+    override val mUnConnectedResId: Int by lazy {
+        R.drawable.ic_network_error
+    }
+    override val mEmptyResId: Int by lazy {
+        R.drawable.ic_empty
+    }
+    override val mScaffold: Boolean = false
     override val centerTitle: String = "Main"
     override val layoutResId: Int = R.layout.activity_main
-    override val mScaffold: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        supportFragmentManager.beginTransaction()
-            .replace(rv.id,MyFragment())
-            .commit()
+        NetWorkManager.run(application){
+                state, mNetWorkInfo->
+            when(state){
+                NetWorkState.CONNECTED-> {
+                    mNetWorkInfo?.let {
+                        Log.e("==",it.detailedState.name)
+                        Log.e("==",it.subtypeName)
+                        Log.e("==","${it.subtype}")
+                        alertMsg("网络已连接！"){}
+                    }
+                    UIStateManager.changeUIState("MainActivity",UIState.DEFAULT)
+                }
+                NetWorkState.LOST->alertMsg("网络开小差了！"){}
+            }
+        }
+        setContentView(createContentView())
+//        supportFragmentManager.beginTransaction()
+//            .replace(rv.id,MyFragment())
+//            .commit()
 //        val loadingFragment = AppDialog.newBuilder()
 //            .layoutResId(R.layout.loading)
 //            .setAlpha(0.3f)

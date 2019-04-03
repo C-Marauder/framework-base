@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.androidx.ui.UITemplate
+import com.androidx.ui.template.UITemplate
 
-abstract class MVVMFragment<T:ViewDataBinding>:Fragment(),UITemplate {
+abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
     open val onBackPressed: Function0<Unit> ?=null
     lateinit var mViewDataBinding: T
     lateinit var mFragmentCallback: FragmentCallback
