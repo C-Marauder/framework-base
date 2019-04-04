@@ -1,4 +1,4 @@
-package com.androidx.ui.network
+package com.xqy.androidx.ui.network
 
 import android.app.Application
 import android.content.BroadcastReceiver

@@ -1,4 +1,4 @@
-package com.androidx.ui.template
+package com.xqy.androidx.ui.template
 
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
@@ -17,10 +17,10 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.androidx.ui.R
-import com.androidx.ui.state.UIStateCallback
+import com.xqy.androidx.ui.state.UIStateCallback
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+import com.xqy.androidx.ui.R
 
 interface UITemplate {
     companion object {
@@ -80,7 +80,9 @@ interface UITemplate {
             val titleView = AppCompatTextView(this.context).apply {
                 this.gravity = Gravity.CENTER
                 this.setTextSize(TypedValue.COMPLEX_UNIT_SP, UIConfig.titleSize)
-                this.setTextColor(ContextCompat.getColor(mActivity, UIConfig.titleColor))
+                this.setTextColor(ContextCompat.getColor(mActivity,
+                    UIConfig.titleColor
+                ))
                 this.text = centerTitle
             }
             addView(titleView, -2, -1)

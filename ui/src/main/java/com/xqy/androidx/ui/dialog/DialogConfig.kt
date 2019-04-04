@@ -1,4 +1,4 @@
-package com.androidx.ui.dialog
+package com.xqy.androidx.ui.dialog
 
 data class DialogConfig(val buttonTextSize:Float,
                         val contentTextSize:Float,

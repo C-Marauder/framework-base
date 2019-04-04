@@ -1,4 +1,4 @@
-package com.androidx.ui
+package com.xqy.androidx.ui
 
 import android.content.Context
 import android.content.res.Resources

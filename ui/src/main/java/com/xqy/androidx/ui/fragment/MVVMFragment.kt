@@ -1,4 +1,4 @@
-package com.androidx.ui.fragment
+package com.xqy.androidx.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.androidx.ui.template.UITemplate
+import com.xqy.androidx.ui.template.UITemplate
 
 abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
     open val onBackPressed: Function0<Unit> ?=null

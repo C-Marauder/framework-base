@@ -1,4 +1,4 @@
-package com.androidx.ui.template
+package com.xqy.androidx.ui.template
 
 class UIConfig {
 

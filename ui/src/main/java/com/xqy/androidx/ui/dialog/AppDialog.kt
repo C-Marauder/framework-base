@@ -1,4 +1,4 @@
-package com.androidx.ui.dialog
+package com.xqy.androidx.ui.dialog
 
 import android.app.Dialog
 import android.graphics.Color
@@ -10,17 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.core.content.ContextCompat
-import com.androidx.ui.R
-import com.androidx.ui.dp
+import com.xqy.androidx.ui.R
+import com.xqy.androidx.ui.dp
 import kotlinx.android.synthetic.main.confirm_dialog.*
 
 class AppDialog: AppCompatDialogFragment() {
     private lateinit var mBuilder: Builder
     companion object {
-        fun newBuilder()=Builder()
+        fun newBuilder()= Builder()
 
-        private fun getInstance(builder: Builder):AppDialog{
+        private fun getInstance(builder: Builder): AppDialog {
             return AppDialog().apply {
                 this.mBuilder = builder
             }
@@ -116,7 +115,7 @@ class AppDialog: AppCompatDialogFragment() {
         internal var listener:(view:View)->Unit={}
         internal var dimAmount:Float = -1f
         internal var isConfirmType:Boolean = false
-        internal var dialogConfig:DialogConfig?=null
+        internal var dialogConfig: DialogConfig?=null
         internal var dialogWidth:Int=0
         internal var dialogHeight:Int=0
         internal var radius:Int = 16.dp
@@ -146,7 +145,7 @@ class AppDialog: AppCompatDialogFragment() {
             this.radius = radius
         }
 
-        fun build()=AppDialog.getInstance(this)
+        fun build()= getInstance(this)
     }
 
 }

@@ -2,9 +2,8 @@ package com.example.ui
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
-import com.androidx.ui.OnClickHelper
-import com.androidx.ui.adapter.AppMVVMViewHolder
-import com.androidx.ui.adapter.AppViewHolder
+import com.xqy.androidx.ui.OnClickHelper
+import com.xqy.androidx.ui.adapter.AppViewHolder
 
 class MyViewHolder(private val go:()->Unit,itemView: View) : AppViewHolder<String>(itemView) {
     override fun bindData(item: String) {

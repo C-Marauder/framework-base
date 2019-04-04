@@ -1,10 +1,10 @@
-package com.androidx.ui
+package com.xqy.androidx.ui
 
 import android.view.View
 
 class OnClickHelper {
     companion object {
-        val instance:OnClickHelper by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
+        val instance: OnClickHelper by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
             OnClickHelper()
         }
 

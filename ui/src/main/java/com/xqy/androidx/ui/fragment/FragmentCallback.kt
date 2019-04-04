@@ -1,4 +1,4 @@
-package com.androidx.ui.fragment
+package com.xqy.androidx.ui.fragment
 
 interface FragmentCallback {
 

@@ -1,26 +1,23 @@
 package com.example.ui
 
-import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
-import com.androidx.ui.adapter.AppAdapter
-import com.androidx.ui.alertMsg
-import com.androidx.ui.dialog.AppDialog
-import com.androidx.ui.dialog.DialogConfig
-import com.androidx.ui.initRecyclerView
-import com.androidx.ui.network.NetWorkManager
-import com.androidx.ui.network.NetWorkState
-import com.androidx.ui.state.UIState
-import com.androidx.ui.state.UIStateCallback
-import com.androidx.ui.state.UIStateManager
-import com.androidx.ui.template.UITemplate
+import com.xqy.androidx.ui.adapter.AppAdapter
+import com.xqy.androidx.ui.alertMsg
+import com.xqy.androidx.ui.dialog.AppDialog
+import com.xqy.androidx.ui.dialog.DialogConfig
+import com.xqy.androidx.ui.initRecyclerView
+import com.xqy.androidx.ui.network.NetWorkManager
+import com.xqy.androidx.ui.network.NetWorkState
+import com.xqy.androidx.ui.state.UIState
+import com.xqy.androidx.ui.state.UIStateCallback
+import com.xqy.androidx.ui.state.UIStateManager
+import com.xqy.androidx.ui.template.UITemplate
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
+class MainActivity : AppCompatActivity(), UITemplate,
+    UIStateCallback {
     override val mUnConnectedResId: Int by lazy {
         R.drawable.ic_network_error
     }
@@ -40,11 +37,13 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
 
                         alertMsg("网络已连接！"){}
                     }
-                    UIStateManager.changeUIState("MainActivity",UIState.DEFAULT)
+                    UIStateManager.changeUIState("MainActivity",
+                        UIState.DEFAULT)
                 }
                 NetWorkState.LOST->{
                     alertMsg("网络开小差了！"){}
-                    UIStateManager.changeUIState("MainActivity",UIState.EMPTY)
+                    UIStateManager.changeUIState("MainActivity",
+                        UIState.EMPTY)
 
                 }
             }
@@ -56,14 +55,15 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
 //            .commit()
         val loadingFragment = AppDialog.newBuilder()
             .isDefaultConfirmType(true, DialogConfig(16f,
-                16f,R.color.colorAccent,
+                16f, R.color.colorAccent,
                 R.color.colorPrimaryDark,
                 android.R.color.black,
                 {
 
-                },{
-                  true
-                }))
+                }, {
+                    true
+                })
+            )
             .isCancel(false)
             .setAlpha(0.3f)
 //            .dialogHeight()//设置高度
@@ -73,15 +73,15 @@ class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
         //loadingFragment.show(supportFragmentManager,"")
         val delegateAdapter = mRecyclerView.initRecyclerView()
         for (i in 0..20){
-            val adapter = AppAdapter<String>("3",{
+            val adapter = AppAdapter<String>("3", {
                 R.layout.item
-            },{
+            }, {
                 MyViewHolder({
 
-                    loadingFragment.show(supportFragmentManager,"loading")
+                    loadingFragment.show(supportFragmentManager, "loading")
                     //startActivity(Intent(this@MainActivity,MyActivity::class.java))
 
-                },it)
+                }, it)
             }, LinearLayoutHelper())
             delegateAdapter.addAdapter(adapter)
 

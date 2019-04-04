@@ -1,4 +1,4 @@
-package com.androidx.ui.adapter
+package com.xqy.androidx.ui.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

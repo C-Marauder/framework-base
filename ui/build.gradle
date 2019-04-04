@@ -18,7 +18,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.1"
+        versionName "1.0.0"
 
 
     }
@@ -58,8 +58,8 @@ ext {
     libraryName = 'ui'
 
 }
-group = 'com.androidx.ui'
-version = '1.0.1'
+group = 'com.xqy.androidx.ui'
+version = '1.0.3'
 
 install {
     repositories.mavenInstaller {
@@ -67,7 +67,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                groupId 'com.androidx.ui'
+                groupId 'com.xqy.androidx.ui'
                 artifactId 'ui'
                 name 'ui'
                 url siteUrl

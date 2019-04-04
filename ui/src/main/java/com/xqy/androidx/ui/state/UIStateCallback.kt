@@ -1,4 +1,4 @@
-package com.androidx.ui.state
+package com.xqy.androidx.ui.state
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
@@ -25,7 +24,7 @@ interface UIStateCallback {
     fun observeState(mStateImageView: AppCompatImageView) {
         val mUIState= MutableLiveData<UIState>()
         val mUIStateKey = this::class.java.simpleName
-        UIStateManager.saveUIState(mUIStateKey,mUIState)
+        UIStateManager.saveUIState(mUIStateKey, mUIState)
         setLoadingState(mStateImageView)
         val activity = when {
             this is AppCompatActivity -> this
@@ -41,13 +40,13 @@ interface UIStateCallback {
 
             when (it!!) {
                 UIState.LOADING -> setLoadingState(mStateImageView)
-                UIState.EMPTY-> {
+                UIState.EMPTY -> {
                     if (mStateImageView.visibility == View.GONE){
                         mStateImageView.visibility = View.VISIBLE
                     }
                     mStateImageView.setBackgroundResource(mEmptyResId)
                 }
-                UIState.DEFAULT-> mStateImageView.visibility = View.GONE
+                UIState.DEFAULT -> mStateImageView.visibility = View.GONE
             }
         })
 

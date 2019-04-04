@@ -1,4 +1,4 @@
-package com.androidx.ui.state
+package com.xqy.androidx.ui.state
 
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ object UIStateManager {
     internal fun saveUIState(mUIStateKey: String,uiState: MutableLiveData<UIState>){
         mUIStates[mUIStateKey] = uiState
     }
-    fun changeUIState(mUIStateKey:String,state:UIState){
+    fun changeUIState(mUIStateKey:String,state: UIState){
         mUIStates[mUIStateKey]?.let {
             if (Thread.currentThread() == Looper.getMainLooper().thread){
                 it.value = state
