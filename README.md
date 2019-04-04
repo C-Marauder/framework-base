@@ -2,7 +2,7 @@
 a android ui library
 ## 使用Kotlin基于Androidx开发的Android UI框架,建议使用单个Activity+多Fragment开发
 ## 1.依赖
-`implementation 'com.androidx.ui:ui:1.0.1'`
+`implementation 'com.androidx.ui:ui:1.0.2'`
 
 ## 2.使用
 * UI模板
