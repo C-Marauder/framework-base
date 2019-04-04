@@ -11,7 +11,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            "https://dl.bintray.com/xqy/maven"
+            url ’https://dl.bintray.com/xqy/maven‘
         }
         
     }
