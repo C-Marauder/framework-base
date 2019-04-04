@@ -4,7 +4,21 @@ a android ui library
 ## 1.依赖
 [ ![Download](https://api.bintray.com/packages/xqy/maven/ui/images/download.svg?version=1.0.2) ](https://bintray.com/xqy/maven/ui/1.0.2/link)
 
-`implementation 'com.androidx.ui:ui:1.0.2'`
+##### application.build
+
+```
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            "https://dl.bintray.com/xqy/maven"
+        }
+        
+    }
+ }
+```
+`implementation 'com.xqy.androidx.ui:ui:1.0.3'`
 
 ## 2.使用
 * UI模板
