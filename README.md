@@ -159,6 +159,9 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
 > 当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动
 
-<img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="300" height="600" alt="状态监听"/>
+<div align=center>
+    <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="300" height="600" alt="状态监听"/>
+    <img src="https://github.com/xqy666666/UI/blob/master/list2.gif" width="300" height="600" alt="状态监听"/>
+</div>
 
 
