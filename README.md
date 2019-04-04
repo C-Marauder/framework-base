@@ -2,7 +2,9 @@
 a android ui library
 ## 使用Kotlin基于Androidx开发的Android UI框架,建议使用单个Activity+多Fragment开发
 ## 1.依赖
-`implementation 'com.androidx.ui:ui:1.0.1'`
+[ ![Download](https://api.bintray.com/packages/xqy/maven/ui/images/download.svg?version=1.0.2) ](https://bintray.com/xqy/maven/ui/1.0.2/link)
+
+`implementation 'com.androidx.ui:ui:1.0.2'`
 
 ## 2.使用
 * UI模板
@@ -33,7 +35,7 @@ class UIFragment:Fragment(),UITemplate {
 }
 
 ```
-<img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="300" height="600" alt="模板UI样式"/>
+<img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
 * 网络状态监测
 #### 只需要在Activity中调用NetWorkManager.run()
@@ -55,7 +57,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
         }
 }
 ```
-<img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="300" height="600" alt="网络监听"/>
+<img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="200" height="400" alt="网络监听"/>
 
 * 添加状态View
 
@@ -95,7 +97,7 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 }
 
 ```
-<img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="300" height="600" alt="状态监听"/>
+<img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="200" height="400" alt="状态监听"/>
 
 * 对话框
 ```
@@ -159,9 +161,10 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
 > 当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动
 
-<div align=center>
-    <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="300" height="600" alt="状态监听"/>
-    <img src="https://github.com/xqy666666/UI/blob/master/list2.gif" width="300" height="600" alt="状态监听"/>
+<div >
+    <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="200" height="400" alt="状态监听"/>
+    <img src="https://github.com/xqy666666/UI/blob/master/list2.gif" width="200" height="400" alt="状态监听"/>
+    <img src="https://github.com/xqy666666/UI/blob/master/list3.gif" width="200" height="400" alt="状态监听"/>
 </div>
 
 
