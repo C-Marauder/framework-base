@@ -121,3 +121,47 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
             .build()
   dialog.show(supportFragmentManager,"")//显示
 ```
+* 列表
+#### 列表是基于阿里的vLayout封装的
+
+```
+ val delegateAdapter = mRecyclerView.initRecyclerView()//初始化参数
+        for (i in 0..20){
+            val adapter = AppAdapter<String>("3",{
+                R.layout.item
+            },{
+                MyViewHolder({
+
+                    loadingFragment.show(supportFragmentManager,"loading")
+                    //startActivity(Intent(this@MainActivity,MyActivity::class.java))
+
+                },it)
+            }, LinearLayoutHelper())
+            delegateAdapter.addAdapter(adapter)
+
+ }
+ 或者
+  val items = arrayListOf<String>()
+        for (i in 0 ..20){
+            items.add("$i")
+        }
+        val adapters = AppAdapter<String>(items,{
+            R.layout.item
+        },{
+            MyViewHolder({
+
+                loadingFragment.show(supportFragmentManager,"loading")
+                //startActivity(Intent(this@MainActivity,MyActivity::class.java))
+
+            },it)
+        }, LinearLayoutHelper())
+        delegateAdapter.addAdapter(adapters)
+```
+> 当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动
+
+<div align=center>
+    <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="300" height="600" alt="状态监听"/>
+    <img src="https://github.com/xqy666666/UI/blob/master/list2.gif" width="300" height="600" alt="状态监听"/>
+</div>
+
+
