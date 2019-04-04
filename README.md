@@ -56,9 +56,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
 }
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="300" height="600" alt="网络监听"/>
+
 * 添加状态View
+
 #### 让Activity or Fragment实现UIStateCallback接口
-##### > UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
+##### UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
 
 ```
 class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
@@ -92,4 +94,30 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
     }
 }
 
+```
+<img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="300" height="600" alt="状态监听"/>
+
+* 对话框
+```
+  val dialog = AppDialog.newBuilder()
+            //.handleListener { 
+              //  view ->  //在此方法中处理各种事件
+            //}
+            .isDefaultConfirmType(true, DialogConfig(16f,
+                16f,R.color.colorAccent,
+                R.color.colorPrimaryDark,
+                android.R.color.black,
+                {
+                  
+                },{
+                  true  
+                }))
+            .isCancel()//是否允许点击外部消失
+            //.layoutResId()//对话框内容视图
+            .setAlpha()//背景透明度
+            .dialogHeight()//设置高度
+            .dialogWidth()//设置宽度
+            .dialogRadius()//设置圆角大小,直接给数值,单位默认为dp
+            .build()
+  dialog.show(supportFragmentManager,"")//显示
 ```
