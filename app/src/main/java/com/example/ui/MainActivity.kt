@@ -102,16 +102,22 @@ class MainActivity : AppCompatActivity(), UITemplate,
 
             //appLog(cache)
         }
+        val result = SecurityHelper.mInstance.encryptByAES("123",cache!!)
+        Log.e("====",result)
 
-        application.deleteCache("App")
-        val content = application.getFromCache("App")
-        if (content == null){
-            alertMsg("==="){
+        val deResult = SecurityHelper.mInstance.decryptByAES(result)
+        appLog(deResult!!)
 
-            }
-        }else{
-            appLog(content)
-        }
+//        application.deleteCache("App")
+//        val content = application.getFromCache("App")
+//        if (content == null){
+//            alertMsg("==="){
+//
+//            }
+//        }else{
+//            appLog(content)
+//        }
+
 //        val items = arrayListOf<String>()
 //        for (i in 0 ..20){
 //            items.add("$i")

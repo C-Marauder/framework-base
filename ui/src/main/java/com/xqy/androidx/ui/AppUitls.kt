@@ -4,10 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.icu.text.SelectFormat
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
+import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -26,6 +28,11 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.nio.file.Files
+import java.security.SecureRandom
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 inline fun <reified T : RecyclerView> T.initRecyclerView(): DelegateAdapter {
     this.setHasFixedSize(true)
@@ -264,3 +271,5 @@ inline fun <reified T : Application> T.deleteAllFile() {
         }, {}
     )
 }
+
+
