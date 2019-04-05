@@ -16,11 +16,18 @@ abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
     lateinit var mViewDataBinding: T
     lateinit var mFragmentCallback: FragmentCallback
     private lateinit var mAppCompatActivity: AppCompatActivity
+    open val enableMenu:Boolean = false
     override fun inflateContentView(rootView: ViewGroup): View {
         mViewDataBinding = DataBindingUtil.inflate<T>(layoutInflater,layoutResId,rootView,false)
         return mViewDataBinding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (enableMenu){
+            setHasOptionsMenu(enableMenu)
+        }
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.mAppCompatActivity = context as AppCompatActivity
