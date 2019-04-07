@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable name="num" type="java.lang.String"/>
+
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:text="@{num}">
+
+    </androidx.appcompat.widget.AppCompatTextView>
+</layout>

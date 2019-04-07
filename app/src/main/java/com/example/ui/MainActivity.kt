@@ -3,19 +3,29 @@ package com.example.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import android.view.View
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
-import com.xqy.androidx.ui.*
-import com.xqy.androidx.ui.adapter.AppAdapter
-import com.xqy.androidx.ui.dialog.AppDialog
-import com.xqy.androidx.ui.dialog.DialogConfig
-import com.xqy.androidx.ui.network.NetWorkManager
-import com.xqy.androidx.ui.network.NetWorkState
-import com.xqy.androidx.ui.state.UIState
-import com.xqy.androidx.ui.state.UIStateCallback
-import com.xqy.androidx.ui.state.UIStateManager
-import com.xqy.androidx.ui.template.UITemplate
+import com.example.ui.databinding.FMyBinding
+import com.example.ui.databinding.ItemTestBinding
+import com.xqy.androidx.framework.adapter.AppAdapter
+import com.xqy.androidx.framework.adapter.MVVMAdapter
+import com.xqy.androidx.framework.dialog.AppDialog
+import com.xqy.androidx.framework.dialog.DialogConfig
+import com.xqy.androidx.framework.network.NetWorkManager
+import com.xqy.androidx.framework.network.NetWorkState
+import com.xqy.androidx.framework.security.SecurityHelper
+import com.xqy.androidx.framework.state.UIState
+import com.xqy.androidx.framework.state.UIStateCallback
+import com.xqy.androidx.framework.state.UIStateManager
+import com.xqy.androidx.framework.template.UITemplate
+import com.xqy.androidx.framework.utils.*
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.internal.operators.flowable.FlowablePublish
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), UITemplate,
     UIStateCallback {
@@ -77,20 +87,20 @@ class MainActivity : AppCompatActivity(), UITemplate,
 
 
         val delegateAdapter = mRecyclerView.initRecyclerView()
-        for (i in 0..20){
-            val adapter = AppAdapter<String>("3", {
-                R.layout.item
-            }, {
-                MyViewHolder({
-
-                    loadingFragment.show(supportFragmentManager, "loading")
-                    //startActivity(Intent(this@MainActivity,MyActivity::class.java))
-
-                }, it)
-            }, LinearLayoutHelper())
-            delegateAdapter.addAdapter(adapter)
-
-        }
+//        for (i in 0..20){
+//            val adapter = AppAdapter<String>("3", {
+//                R.layout.item
+//            }, {
+//                MyViewHolder({
+//
+//                   // loadingFragment.show(supportFragmentManager, "loading")
+//                    //startActivity(Intent(this@MainActivity,MyActivity::class.java))
+//
+//                }, it)
+//            }, LinearLayoutHelper())
+//            delegateAdapter.addAdapter(adapter)
+//
+//        }
         application.saveToCache("App","123333")
         val cache = application.getFromCache("App")
         appLog("=================")
@@ -107,7 +117,29 @@ class MainActivity : AppCompatActivity(), UITemplate,
 
         val deResult = SecurityHelper.mInstance.decryptByAES(result)
         appLog(deResult!!)
+       rv.onClick {
+           appLog("${System.currentTimeMillis()}")
+       }
+      val testAdapter =  MVVMAdapter.Builder<String,ItemTestBinding> {
+           items {
+               val items = arrayListOf<String>()
+               for (i in 0..20) {
+                   items.add("$i")
+               }
+               items
+           }
+            layoutHelper {
+                LinearLayoutHelper()
+            }
+          layoutResId {
+              R.layout.item_test
+          }
+            viewHolder { dataBinding, itemView ->
+                TestViewHolder(dataBinding,itemView)
+            }
+        }
 
+        delegateAdapter.addAdapter(testAdapter)
 //        application.deleteCache("App")
 //        val content = application.getFromCache("App")
 //        if (content == null){
