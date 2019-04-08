@@ -32,6 +32,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     implementation project(':framework')
-
+//    implementation 'com.xqy.androidx.framework:framework:1.0.0'
 
 }
