@@ -5,7 +5,7 @@
 
 ## 1.依赖
 
-'implementation 'com.xqy.androidx.framework:framework:1.0.0'
+# `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
 ## 2.使用
 * UI模板
