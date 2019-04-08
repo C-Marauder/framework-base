@@ -1,23 +1,11 @@
 
 ## 使用Kotlin基于Androidx开发的Android UI框架,建议使用单个Activity+多Fragment开发
+
+[ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
+
 ## 1.依赖
-[ ![Download](https://api.bintray.com/packages/xqy/maven/ui/images/download.svg?version=1.0.3) ](https://bintray.com/xqy/maven/ui/1.0.3/link)
 
-##### application.build
-
-```
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven {
-            url ’https://dl.bintray.com/xqy/maven‘
-        }
-        
-    }
- }
-```
-`implementation 'com.xqy.androidx.ui:ui:1.0.3'`
+##### `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
 ## 2.使用
 * UI模板
