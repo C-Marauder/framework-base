@@ -107,8 +107,8 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = 'xqy666666'
+    key = 'c85fe0ff3dcf856e53d505bfe86ad313e6ffd068'
     configurations = ['archives', 'MyPublication']
     override = true
 
