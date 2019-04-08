@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), UITemplate,
     UIStateCallback {
+
     override val mUnConnectedResId: Int by lazy {
         R.drawable.ic_network_error
     }
