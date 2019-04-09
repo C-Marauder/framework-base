@@ -38,6 +38,21 @@ class UIFragment:Fragment(),UITemplate {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
+#### 使用DataBinding-继承MVVMFragment
+
+```
+class MyFragment: MVVMFragment<FMyBinding>() {
+    override val layoutResId: Int by lazy {
+        R.layout.f_my
+    }
+    override val centerTitle: String = "MyFragment"
+    //如需处理物理返回事件，可以重写该方法
+    override val onBackPressed: (() -> Unit)?={
+        Log.e("====","===")
+    }
+}
+
+```
 #### 全局UI配置
 
 ```
