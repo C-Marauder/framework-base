@@ -168,4 +168,23 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
     <img src="https://github.com/xqy666666/UI/blob/master/list3.gif" width="200" height="400" alt="状态监听"/>
 </div>
 
+* 本地缓存-SharedPreferences
+
+```
+var mUserId:Int by AppPreference(application,123)
+override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mUserId = 110//直接赋值，自动存储
+  }
+```
+* AES数据加密
+
+```
+//第一个参数是加密秘钥，第二个是加密内容
+val result = SecurityHelper.mInstance.encryptByAES("123",content)
+
+//解密
+val deResult = SecurityHelper.mInstance.decryptByAES(result)
+
+```
 
