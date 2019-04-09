@@ -9,7 +9,7 @@
 
 ## 2.模块简介
 
-## UI模块
+## [UI模块](https://github.com/xqy666666/UI)
 #### 在activity中（必须继承AppCompatActivity）
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
