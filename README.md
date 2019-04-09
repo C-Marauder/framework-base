@@ -53,6 +53,7 @@ class MyFragment: MVVMFragment<FMyBinding>() {
 }
 
 ```
+> 如需在宿主Activity中回调事件，可让Activity实现FragmentCallback接口。在需要的地方调用 FragmentCallback.onResponse()方法即可。
 #### 全局UI配置
 
 ```
