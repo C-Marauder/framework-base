@@ -38,6 +38,24 @@ class UIFragment:Fragment(),UITemplate {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
+* 全局UI配置
+
+```
+class App:Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        UIConfig.Builder {
+            titleColor {  }//toolbar标题的颜色
+            titleSize {  }//toolbar标题的字体大小
+            navIcon {  }//导航icon
+            clearElevation {  }//是否需要阴影
+        }
+    }
+}
+```
+
 * 网络状态监测
 #### 只需要在Activity中调用NetWorkManager.run()
 ```
