@@ -7,7 +7,7 @@
 
 ##### `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
-## 简介
+## 2.模块简介
 
 ## UI模块
 #### 在activity中（必须继承AppCompatActivity）
