@@ -160,6 +160,13 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
+> 防重复点击-直接调用该方法
+``` 
+yourView.onClick{
+    //doThings()
+}
+
+```
 > 当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动
 
 <div >
