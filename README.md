@@ -38,7 +38,7 @@ class UIFragment:Fragment(),UITemplate {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
-* 全局UI配置
+#### 全局UI配置
 
 ```
 class App:Application() {
