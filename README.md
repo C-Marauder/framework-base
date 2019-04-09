@@ -1,5 +1,5 @@
 
-## 使用Kotlin基于Androidx开发的Android 开发框架,建议使用单个Activity+多Fragment开发
+## 使用Kotlin基于Androidx的Android开发框架,建议使用单个Activity+多Fragment开发
 
 [ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
 
