@@ -9,7 +9,7 @@
 
 ## 2.使用
 * UI模板
-#### 1.activity（必须继承AppCompatActivity）
+#### 在activity中（必须继承AppCompatActivity）
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
     
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITempla
     }
 }
 ```
-#### 2.fragment中
+#### 在fragment中
 ```
 class UIFragment:Fragment(),UITemplate {
     override val layoutResId: Int
