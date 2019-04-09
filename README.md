@@ -7,8 +7,9 @@
 
 ##### `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
-## 2.使用
-* UI模板
+## 简介
+
+## UI模块
 #### 在activity中（必须继承AppCompatActivity）
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
@@ -235,5 +236,36 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 `implementation 'com.xqy.androidx.event:event:1.0.0'`
 
+#### 使用
+
+```
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        textView.setOnClickListener {
+            startActivity(Intent(this,BActivity::class.java))
+        }
+        registerEvent<String>("a"){
+            Log.e("==","=====")
+            textView.text = it
+            textView.textSize = 24f
+        }
+    }
+}
+
+class BActivity:AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.b_activity)
+        textView.setOnClickListener {
+            sendEvent("a","Hello MainActivity")
+        }
+
+    }
+
+}
+```
 
 
