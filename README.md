@@ -14,6 +14,8 @@
 
 * 动态改变状态栏模块
 
+###  2.[跨组件通信模块](https://github.com/xqy666666/EventManager)
+
 ###  2.[网络请求模块](https://github.com/xqy666666/UI)
 
 ###  3.[抽象业务模块]()
@@ -22,7 +24,7 @@
 
 建议使用单个Activity+多Fragment开发
 
-### UI模块简介
+### [UI模块简介](https://github.com/xqy666666/UI)
 
 #### 1.依赖
 
@@ -99,7 +101,7 @@ class MyFragment: MVVMFragment<FMyBinding>() {
 
 ##### 4.网络状态监测
 
-> 只需要在Activity中调用NetWorkManager.run()
+**只需要在Activity中调用NetWorkManager.run()**
 
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,11 +123,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="200" height="400" alt="网络监听"/>
 
-##### 5.添加状态View
+##### 5.实现UIStateCallback接口,添加状态View
 
-> 让Activity or Fragment实现UIStateCallback接口
-
-UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
+**UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState**
 
 ```
 class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
@@ -162,7 +162,8 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="200" height="400" alt="状态监听"/>
 
-* 对话框
+##### 6.对话框
+
 ```
   val dialog = AppDialog.newBuilder()
             //.handleListener { 
@@ -186,8 +187,9 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
             .build()
   dialog.show(supportFragmentManager,"")//显示
 ```
-* 列表
-#### 列表是基于阿里的vLayout封装的
+##### 7.列表
+
+**列表是基于阿里的vLayout封装的**
 
 ```
  val delegateAdapter = mRecyclerView.initRecyclerView()//初始化参数
@@ -222,14 +224,15 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
-> 防重复点击-直接调用该方法
+##### 8.防重复点击-直接调用该方法
+
 ``` 
 yourView.onClick{
     //doThings()
 }
 
 ```
-> 当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动
+**当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动**
 
 <div >
     <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="200" height="400" alt="状态监听"/>
@@ -237,7 +240,7 @@ yourView.onClick{
     <img src="https://github.com/xqy666666/UI/blob/master/list3.gif" width="200" height="400" alt="状态监听"/>
 </div>
 
-* 本地缓存-SharedPreferences
+##### 9.本地缓存-SharedPreferences
 
 ```
 var mUserId:Int by AppPreference(application,123)
@@ -246,7 +249,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
         mUserId = 110//直接赋值，自动存储
   }
 ```
-* AES数据加密
+
+##### 10.AES数据加密
 
 ```
 //第一个参数是加密秘钥，第二个是加密内容
@@ -257,7 +261,7 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ```
 
-## [跨组件通信模块](https://github.com/xqy666666/EventManager)
+## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
 #### 依赖
 
