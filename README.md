@@ -1,15 +1,35 @@
-
-## 使用Kotlin基于Androidx的Android开发框架,建议使用单个Activity+多Fragment开发
-
 [ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
 
-## 1.依赖
+# 1.模块简介
 
-##### `implementation 'com.xqy.androidx.framework:framework:1.0.0`
+## 使用Kotlin基于Androidx的Android开发框架,目前分为四个模块：
 
-## 2.模块简介
+### * [UI模块]()
 
-## [UI模块](https://github.com/xqy666666/UI)
+#### UI模块包含下面几个小模块：
+
+* UI模板
+
+* 权限模块
+
+* 动态改变状态栏模块
+
+### * [网络请求模块](https://github.com/xqy666666/UI)
+
+### * [抽象业务模块]()
+
+### * [数据库模块]()
+
+建议使用单个Activity+多Fragment开发
+
+### UI模块
+
+#### 1.依赖
+
+`implementation 'com.xqy.androidx.framework:framework:1.0.0`
+
+#### 2.功能简介
+
 #### 在activity中（必须继承AppCompatActivity）
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
