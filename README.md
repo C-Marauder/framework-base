@@ -9,7 +9,7 @@
 
 * UI模板
 
-* 动态权限模块
+* [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
 * 动态改变状态栏模块
 
@@ -261,6 +261,13 @@ val result = SecurityHelper.mInstance.encryptByAES("123",content)
 val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ```
+### [动态权限模块简介](https://github.com/xqy666666/Kotlin-Permission)
+
+### 1.依赖
+
+[ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/permission/1.0.0/link)
+
+`implementation 'com.xqy.androidx.permission:permission:1.0.0'`
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
