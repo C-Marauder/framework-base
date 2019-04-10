@@ -97,10 +97,10 @@ class MyFragment: MVVMFragment<FMyBinding>() {
 ```
 > 如需在宿主Activity中回调事件，可让Activity实现FragmentCallback接口。在需要的地方调用 FragmentCallback.onResponse()方法即可。
 
-
-
 ##### 4.网络状态监测
-###### > 只需要在Activity中调用NetWorkManager.run()
+
+> 只需要在Activity中调用NetWorkManager.run()
+
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,7 +123,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ##### 5.添加状态View
 
-###### > 让Activity or Fragment实现UIStateCallback接口
+> 让Activity or Fragment实现UIStateCallback接口
 
 UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
 
