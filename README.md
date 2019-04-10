@@ -263,11 +263,11 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
-#### 依赖
+### 1.依赖
 
 `implementation 'com.xqy.androidx.event:event:1.0.0'`
 
-#### 使用
+### 2.使用
 
 ```
 class MainActivity : AppCompatActivity() {
