@@ -265,9 +265,9 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ### 1.依赖
 
-[ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/permission/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.3) ](https://bintray.com/xqy/maven/permission/1.0.3/link)
 
-`implementation 'com.xqy.androidx.permission:permission:1.0.0'`
+`implementation 'com.xqy.androidx.permission:permission:1.0.3'`
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
