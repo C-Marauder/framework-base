@@ -1,8 +1,7 @@
-[ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
 
 # 1.模块简介
 
-## 使用Kotlin基于Androidx的Android开发框架,目前分为四个模块：
+## 使用Kotlin基于Androidx的Android开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
 ###  1.[UI模块](https://github.com/xqy666666/UI)
 
@@ -10,7 +9,7 @@
 
 * UI模板
 
-* 权限模块
+* 动态权限模块
 
 * 动态改变状态栏模块
 
@@ -25,6 +24,8 @@
 建议使用单个Activity+多Fragment开发
 
 ### [UI模块简介](https://github.com/xqy666666/UI)
+
+[ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
 
 #### 1.依赖
 
