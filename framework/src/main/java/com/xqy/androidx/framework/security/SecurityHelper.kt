@@ -70,4 +70,8 @@ class SecurityHelper private constructor() {
     }
 
 
+//    fun encryptByRsa():String{
+//
+//    }
+
 }

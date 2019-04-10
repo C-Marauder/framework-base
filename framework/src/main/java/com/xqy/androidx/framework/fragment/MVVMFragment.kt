@@ -43,7 +43,7 @@ abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackPressed?.let {
-            this.mAppCompatActivity.addOnBackPressedCallback {
+            this.mAppCompatActivity.onBackPressedDispatcher.addCallback {
                 it()
                 true
             }

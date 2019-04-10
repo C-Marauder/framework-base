@@ -1,38 +1,37 @@
 package com.xqy.androidx.framework.template
 
-class UIConfig {
+class UIConfig private constructor() {
 
     companion object {
 
-        internal var titleSize:Float = 16f
-        internal var titleColor:Int = android.R.color.background_light
-        internal var navIcon:Int = 0
-        internal var canScroll:Boolean = true
-        internal var clearElevation:Boolean =false
-        fun newBuilder() = Builder.builder
+        internal var titleSize: Float = 16f
+        internal var titleColor: Int = android.R.color.background_light
+        internal var navIcon: Int = 0
+        internal var canScroll: Boolean = true
+        internal var clearElevation: Boolean = false
+        fun Builder(init: Builder.() -> Unit) = Builder().apply(init)
     }
 
-    class Builder{
-        companion object {
-            val builder: Builder by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
-                Builder()
-            }
-        }
-        fun clearElevation(isClear:Boolean)=apply {
-            clearElevation = isClear
-        }
-        fun behavior(canScroll:Boolean) = apply {
-            UIConfig.canScroll = canScroll
-        }
-        fun titleSize(titleSize:Float)=apply {
-            UIConfig.titleSize = titleSize
-        }
-        fun titleColor(titleColor:Int) = apply {
-            UIConfig.titleColor = titleColor
+    class Builder {
+
+        fun clearElevation(init: () -> Boolean) {
+            clearElevation = init()
         }
 
-        fun navIcon(icon:Int)=apply {
-            navIcon = icon
+        fun behavior(init: () -> Boolean) {
+            UIConfig.canScroll = init()
+        }
+
+        fun titleSize(init: () -> Float) {
+            UIConfig.titleSize = init()
+        }
+
+        fun titleColor(init: () -> Int) {
+            UIConfig.titleColor = init()
+        }
+
+        fun navIcon(init: () -> Int) {
+            navIcon = init()
         }
 
     }

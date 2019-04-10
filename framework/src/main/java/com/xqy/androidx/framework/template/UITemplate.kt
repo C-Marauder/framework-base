@@ -137,9 +137,9 @@ interface UITemplate {
                 val lp = appBarLayout.getChildAt(0).layoutParams as AppBarLayout.LayoutParams
                 lp.scrollFlags = 0
             }
-            val contentLp = content.layoutParams as CoordinatorLayout.LayoutParams
-            contentLp.behavior = AppBarLayout.ScrollingViewBehavior()
-            content.layoutParams = contentLp
+//            val contentLp = content.layoutParams as CoordinatorLayout.LayoutParams
+//            contentLp.behavior = AppBarLayout.ScrollingViewBehavior()
+//            content.layoutParams = contentLp
             mStateImageView?.let {
                 val mStateImageViewLp = mStateImageView.layoutParams as CoordinatorLayout.LayoutParams
                 mStateImageViewLp.behavior = AppBarLayout.ScrollingViewBehavior()

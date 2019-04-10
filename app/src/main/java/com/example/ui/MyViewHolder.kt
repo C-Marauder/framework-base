@@ -11,9 +11,7 @@ class MyViewHolder(private val go:()->Unit,itemView: View) : AppViewHolder<Strin
     private var titleView:AppCompatTextView = itemView.findViewById(R.id.title)
 
     init {
-        OnClickHelper.instance.onClick(titleView,1000){
-            go()
-        }
+
 
     }
 }
