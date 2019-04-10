@@ -30,9 +30,9 @@
 
 `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
-#### 2.功能介绍
+**2.功能介绍**
 
-##### 1.UI模板全局配置
+**1.UI模板全局配置**
 
 ```
 class App:Application() {
@@ -50,7 +50,7 @@ class App:Application() {
 }
 ```
 
-#####  2.实现UITemplate接口，生成UI模板
+**2.实现UITemplate接口，生成UI模板**
 
 * 在activity中（必须继承AppCompatActivity）
 ```
@@ -82,7 +82,7 @@ class UIFragment:Fragment(),UITemplate {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
-##### 3.使用DataBinding-继承MVVMFragment
+**3.使用DataBinding-继承MVVMFragment**
 
 ```
 class MyFragment: MVVMFragment<FMyBinding>() {
@@ -97,11 +97,11 @@ class MyFragment: MVVMFragment<FMyBinding>() {
 }
 
 ```
-> 如需在宿主Activity中回调事件，可让Activity实现FragmentCallback接口。在需要的地方调用 FragmentCallback.onResponse()方法即可。
+> **如需在宿主Activity中回调事件，可让Activity实现FragmentCallback接口。在需要的地方调用 FragmentCallback.onResponse()方法即可。**
 
-##### 4.网络状态监测
+**4.网络状态监测**
 
-**只需要在Activity中调用NetWorkManager.run()**
+> **只需要在Activity中调用NetWorkManager.run()**
 
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,9 +123,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="200" height="400" alt="网络监听"/>
 
-##### 5.实现UIStateCallback接口,添加状态View
+**5.实现UIStateCallback接口,添加状态View**
 
-**UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState**
+> **UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState**
 
 ```
 class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
@@ -162,7 +162,7 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/uiState.gif" width="200" height="400" alt="状态监听"/>
 
-##### 6.对话框
+**6.对话框**
 
 ```
   val dialog = AppDialog.newBuilder()
@@ -187,9 +187,9 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
             .build()
   dialog.show(supportFragmentManager,"")//显示
 ```
-##### 7.列表
+**7.列表**
 
-**列表是基于阿里的vLayout封装的**
+> **列表是基于阿里的vLayout封装的**
 
 ```
  val delegateAdapter = mRecyclerView.initRecyclerView()//初始化参数
@@ -224,7 +224,7 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
-##### 8.防重复点击-直接调用该方法
+**8.防重复点击-直接调用该方法**
 
 ``` 
 yourView.onClick{
@@ -232,7 +232,7 @@ yourView.onClick{
 }
 
 ```
-**当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动**
+> **当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动**
 
 <div >
     <img src="https://github.com/xqy666666/UI/blob/master/list1.gif" width="200" height="400" alt="状态监听"/>
@@ -240,7 +240,7 @@ yourView.onClick{
     <img src="https://github.com/xqy666666/UI/blob/master/list3.gif" width="200" height="400" alt="状态监听"/>
 </div>
 
-##### 9.本地缓存-SharedPreferences
+**9.本地缓存-SharedPreferences**
 
 ```
 var mUserId:Int by AppPreference(application,123)
@@ -250,7 +250,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
   }
 ```
 
-##### 10.AES数据加密
+**10.AES数据加密**
 
 ```
 //第一个参数是加密秘钥，第二个是加密内容
