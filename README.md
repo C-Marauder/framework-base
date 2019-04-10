@@ -4,7 +4,7 @@
 
 ## 使用Kotlin基于Androidx的Android开发框架,目前分为四个模块：
 
-###  [UI模块]()
+###  1.[UI模块](https://github.com/xqy666666/UI)
 
 #### UI模块包含下面几个小模块：
 
@@ -14,23 +14,43 @@
 
 * 动态改变状态栏模块
 
-###  [网络请求模块](https://github.com/xqy666666/UI)
+###  2.[网络请求模块](https://github.com/xqy666666/UI)
 
-###  [抽象业务模块]()
+###  3.[抽象业务模块]()
 
-###  [数据库模块]()
+###  4.[数据库模块]()
 
 建议使用单个Activity+多Fragment开发
 
-### UI模块
+### UI模块简介
 
 #### 1.依赖
 
 `implementation 'com.xqy.androidx.framework:framework:1.0.0`
 
-#### 2.功能简介
+#### 2.功能介绍
 
-#### 在activity中（必须继承AppCompatActivity）
+##### 1.UI模板全局配置
+
+```
+class App:Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        UIConfig.Builder {
+            titleColor {  }//toolbar标题的颜色
+            titleSize {  }//toolbar标题的字体大小
+            navIcon {  }//导航icon
+            clearElevation {  }//toolbar是否需要阴影
+        }
+    }
+}
+```
+
+#####  2.实现UITemplate接口，生成UI模板
+
+* 在activity中（必须继承AppCompatActivity）
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
     
@@ -44,7 +64,8 @@ class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITempla
     }
 }
 ```
-#### 在fragment中
+* 在fragment中
+
 ```
 class UIFragment:Fragment(),UITemplate {
     override val layoutResId: Int
@@ -59,7 +80,7 @@ class UIFragment:Fragment(),UITemplate {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/template1.png" width="200" height="400" alt="模板UI样式"/>
 
-#### 使用DataBinding-继承MVVMFragment
+##### 3.使用DataBinding-继承MVVMFragment
 
 ```
 class MyFragment: MVVMFragment<FMyBinding>() {
@@ -75,26 +96,11 @@ class MyFragment: MVVMFragment<FMyBinding>() {
 
 ```
 > 如需在宿主Activity中回调事件，可让Activity实现FragmentCallback接口。在需要的地方调用 FragmentCallback.onResponse()方法即可。
-#### 全局UI配置
 
-```
-class App:Application() {
 
-    override fun onCreate() {
-        super.onCreate()
 
-        UIConfig.Builder {
-            titleColor {  }//toolbar标题的颜色
-            titleSize {  }//toolbar标题的字体大小
-            navIcon {  }//导航icon
-            clearElevation {  }//是否需要阴影
-        }
-    }
-}
-```
-
-* 网络状态监测
-#### 只需要在Activity中调用NetWorkManager.run()
+##### 4.网络状态监测
+###### > 只需要在Activity中调用NetWorkManager.run()
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,10 +121,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/network.gif" width="200" height="400" alt="网络监听"/>
 
-* 添加状态View
+##### 5.添加状态View
 
-#### 让Activity or Fragment实现UIStateCallback接口
-##### UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
+###### > 让Activity or Fragment实现UIStateCallback接口
+
+UIState-LOADING(加载状态),EMPTY(空状态),DEFAULT(默认正常状态),在需要改变状态的逻辑处调用                    UIStateManager.changeUIState()方法，mUIStateKey:Activity or Fragmnet的名字，state:UIState
 
 ```
 class MainActivity : AppCompatActivity(),UITemplate, UIStateCallback {
