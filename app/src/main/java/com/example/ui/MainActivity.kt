@@ -1,5 +1,6 @@
 package com.example.ui
 
+import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import com.xqy.androidx.framework.state.UIStateCallback
 import com.xqy.androidx.framework.state.UIStateManager
 import com.xqy.androidx.framework.template.UITemplate
 import com.xqy.androidx.framework.utils.*
+import com.xqy.androidx.permission.PermissionHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -67,10 +69,24 @@ class MainActivity : AppCompatActivity(), UITemplate,
 //        }
 
         setContentView(createContentView())
-
         textView.setOnClickListener {
+            PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,
+                hasPermission = { permission ->//该权限已获取
 
+                    alertMsg("$permission 已经获取"){
+
+                    }
+
+                },
+                observer = { permission, isGranted ->//请求权限的回调
+
+                    val msg = if (isGranted)"成功" else "失败"
+                    alertMsg("$permission 获取$msg"){
+
+                    }
+
+                    //toDoSomeThings
+                })
         }
-
     }
 }
