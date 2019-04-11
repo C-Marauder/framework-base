@@ -3,7 +3,7 @@
 
 ## 使用Kotlin基于Androidx的Android开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
-###  1.[UI模块](https://github.com/xqy666666/UI)
+###  [1.UI模块](https://github.com/xqy666666/UI)
 
 #### UI模块包含下面几个小模块：
 
