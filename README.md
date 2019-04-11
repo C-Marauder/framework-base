@@ -269,7 +269,7 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 `implementation 'com.xqy.androidx.permission:permission:1.0.5'`
 
-**获取当个权限**
+**获取单个权限**
 ```
 textView.setOnClickListener {
             PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,
@@ -293,7 +293,7 @@ textView.setOnClickListener {
 ```
  <img src="https://github.com/xqy666666/UI/blob/master/permission.gif" width="200" height="400" alt="状态监听"/>
  
- **获取对个权限**
+ **获取多个权限**
  
  ```
  textView.setOnClickListener {
