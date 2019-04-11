@@ -322,7 +322,7 @@ textView.setOnClickListener {
 
 ### 1.依赖
 
-`implementation 'com.xqy.androidx.event:event:1.0.0'`
+`implementation 'com.xqy.androidx.event:event:1.0.1'`
 
 ### 2.使用
 
