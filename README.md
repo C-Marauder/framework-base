@@ -267,7 +267,31 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 [ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.3) ](https://bintray.com/xqy/maven/permission/1.0.3/link)
 
-`implementation 'com.xqy.androidx.permission:permission:1.0.3'`
+`implementation 'com.xqy.androidx.permission:permission:1.0.5'`
+
+```
+textView.setOnClickListener {
+            PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,
+                hasPermission = { permission ->//该权限已获取
+
+                    alertMsg("$permission 已经获取"){
+
+                    }
+
+                },
+                observer = { permission, isGranted ->//请求权限的回调
+
+                    val msg = if (isGranted)"成功" else "失败"
+                    alertMsg("$permission 获取$msg"){
+
+                    }
+
+                    //toDoSomeThings
+                })
+        }
+```
+ <img src="https://github.com/xqy666666/UI/blob/master/permission.gif" width="200" height="400" alt="状态监听"/>
+
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
