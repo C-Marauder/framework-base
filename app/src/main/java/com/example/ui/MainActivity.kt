@@ -47,46 +47,20 @@ class MainActivity : AppCompatActivity(), UITemplate,
     //var mUserId:Int by AppPreference(application,123)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        //mUserId = 12
-//        NetWorkManager.run(application){
-//                state, mNetWorkInfo->
-//            when(state){
-//                NetWorkState.CONNECTED-> {
-//                    mNetWorkInfo?.let {
-//
-//                        alertMsg("网络已连接！"){}
-//                    }
-//                    UIStateManager.changeUIState("MainActivity",
-//                        UIState.DEFAULT)
-//                }
-//                NetWorkState.LOST->{
-//                    alertMsg("网络开小差了！"){}
-//                    UIStateManager.changeUIState("MainActivity",
-//                        UIState.EMPTY)
-//
-//                }
-//            }
-//        }
 
         setContentView(createContentView())
-        textView.setOnClickListener {
-            PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,
-                hasPermission = { permission ->//该权限已获取
+       val keyPair = SecurityHelper.mInstance.generateRSAKeyPair()
+        val encodeResult = SecurityHelper.mInstance.encryptByRsa("1111",keyPair.public)
 
-                    alertMsg("$permission 已经获取"){
+        appLog(encodeResult)
+        val result= SecurityHelper.mInstance.decryptByRsa(encodeResult,keyPair.private)
+        appLog(result)
 
-                    }
+        val deResult = SecurityHelper.mInstance.encryptByRsa("123456")
 
-                },
-                observer = { permission, isGranted ->//请求权限的回调
+        appLog(deResult)
+        val content = SecurityHelper.mInstance.decryptByRsa(deResult)
+        appLog(content!!)
 
-                    val msg = if (isGranted)"成功" else "失败"
-                    alertMsg("$permission 获取$msg"){
-
-                    }
-
-                    //toDoSomeThings
-                })
-        }
     }
 }

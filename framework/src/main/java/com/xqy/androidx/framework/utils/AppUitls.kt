@@ -168,16 +168,20 @@ inline fun <reified T : Application> T.saveToFile(fileName: String, content: Str
     }
 
 }
-
-inline fun <reified T : Application> T.readFromFile(fileName: String): String {
-    var content = ""
-    openFileInput(fileName).use {
-        it.reader().forEachLine { text ->
-            content = text + content
-        }
+inline fun <reified T : Application> T.saveToFile(fileName: String, content: ByteArray) {
+    openFileOutput(fileName, Context.MODE_PRIVATE).use {
+        it.write(content)
     }
 
-    return content
+}
+
+inline fun <reified T : Application> T.readFromFile(fileName: String): String {
+
+    return openFileInput(fileName).reader().readText()
+}
+inline fun <reified T : Application> T.readBytesFromFile(fileName: String): ByteArray {
+
+    return openFileInput(fileName).readBytes()
 }
 
 /**

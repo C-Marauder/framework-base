@@ -1,6 +1,7 @@
 package com.example.ui
 
 import android.app.Application
+import com.xqy.androidx.framework.security.SecurityHelper
 import com.xqy.androidx.framework.template.UIConfig
 
 class App:Application() {
@@ -14,5 +15,7 @@ class App:Application() {
 //            navIcon {  }//导航icon
 //            clearElevation {  }//是否需要阴影
 //        }
+
+        SecurityHelper.init(this)
     }
 }

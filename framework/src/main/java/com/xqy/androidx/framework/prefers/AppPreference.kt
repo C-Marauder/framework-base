@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import kotlin.reflect.KProperty
 
-class AppPreference<T>(application: Application, private val default: T) {
+class AppPreference<T>(application: Application, private val default: T?) {
 
     private val name: String = application.packageName
 
@@ -35,7 +35,7 @@ class AppPreference<T>(application: Application, private val default: T) {
     }
 
     @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
-    private fun getSharedPreferences(name: String, default: T): T = with(prefers) {
+    private fun getSharedPreferences(name: String, default: T?): T = with(prefers) {
         return when (default) {
             is String -> getString(name, default)
             is Int -> getInt(name, default)
