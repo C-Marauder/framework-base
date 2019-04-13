@@ -121,7 +121,7 @@ class SecurityHelper private constructor() {
         return mKeyPairGenerator.genKeyPair()
     }
 
-    fun encryptByRsa(content: String): String {
+    fun encryptToLocalByRsa(content: String,filename:String):String {
         try {
             if (!::mPublicKey.isInitialized){
                 val pubKeyBytes: ByteArray = mApplication.readBytesFromFile(RAS_PUB_KEY)
@@ -138,15 +138,20 @@ class SecurityHelper private constructor() {
             mApplication.saveToFile(RAS_PUB_KEY, mPublicKey.encoded)
         }
 
-        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+        val encodeContent = Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
             .apply { init(Cipher.ENCRYPT_MODE, mPublicKey) }
             .doFinal(content.toByteArray()), Base64.DEFAULT)
+         mApplication.saveToFile(filename,encodeContent)
+
+        return encodeContent
     }
 
 
-    fun decryptByRsa(decodeContent: String): String? {
-        val decode = Base64.decode(decodeContent, Base64.DEFAULT)
+    fun decryptFromLocalByRsa(filename: String): String? {
+
         try {
+            val encodeContent = mApplication.readFromFile(filename)
+            val decode = Base64.decode(encodeContent, Base64.DEFAULT)
             if (!::mPrivateKey.isInitialized) {
                 val privateKeyBytes = mApplication.readBytesFromFile(RAS_PRIVATE_KEY)
                 val keySpec = PKCS8EncodedKeySpec(privateKeyBytes)

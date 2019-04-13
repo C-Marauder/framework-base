@@ -49,18 +49,23 @@ class MainActivity : AppCompatActivity(), UITemplate,
         super.onCreate(savedInstanceState)
 
         setContentView(createContentView())
-       val keyPair = SecurityHelper.mInstance.generateRSAKeyPair()
-        val encodeResult = SecurityHelper.mInstance.encryptByRsa("1111",keyPair.public)
+//       val keyPair = SecurityHelper.mInstance.generateRSAKeyPair()
+//        val encodeResult = SecurityHelper.mInstance.encryptByRsa("1111",keyPair.public)
+//
+//        appLog(encodeResult)
+//        val result= SecurityHelper.mInstance.decryptByRsa(encodeResult,keyPair.private)
+        encodeView.setOnClickListener {
+            //存储到本地
+            val encodeContent = SecurityHelper.mInstance.encryptToLocalByRsa("123456","test")
+            encodeView.text =encodeContent
+        }
 
-        appLog(encodeResult)
-        val result= SecurityHelper.mInstance.decryptByRsa(encodeResult,keyPair.private)
-        appLog(result)
+        decodeView.setOnClickListener {
+            //从本地读取
+            val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
+            decodeView.text = decodeContent
+        }
 
-        val deResult = SecurityHelper.mInstance.encryptByRsa("123456")
-
-        appLog(deResult)
-        val content = SecurityHelper.mInstance.decryptByRsa(deResult)
-        appLog(content!!)
 
     }
 }
