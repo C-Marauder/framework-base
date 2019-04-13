@@ -262,7 +262,15 @@ val result = SecurityHelper.mInstance.encryptByAES("123",content)
 val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ```
+
 * RAS加密
+
+**先在Application的onCreate()中进行初始化
+
+```
+SecurityHelper.init(this)
+
+```
 
 ```
 //存储到本地
@@ -273,6 +281,11 @@ encodeView.text =encodeContent
 val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
 decodeView.text = decodeContent
 
+//前后端交互
+//1.从后端获取公钥保存
+SecurityHelper.mInstance.saveBase64PubKey(publicKey)
+//2.加密内容        
+SecurityHelper.mInstance.encryptByRsa("111111")
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/rsa.gif" width="200" height="400"/>
 
