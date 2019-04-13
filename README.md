@@ -316,6 +316,21 @@ textView.setOnClickListener {
                 })
         }
  ```
+ 
+### [动态状态栏模块简介](https://github.com/xqy666666/Kotlin-StausBarUtils)
+
+### 1.依赖
+
+`implementation 'com.xqy.android.statusbar:statusbarUtils:1.0.0'`
+
+## 2.使用
+
+```
+在Activity的onCreate()方法中调用
+//isDark true表示黑色，false表示白色
+StatusBarUtils.setStatusBarMode(activity,isDark)
+
+```
 
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
