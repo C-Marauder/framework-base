@@ -11,7 +11,7 @@
 
 * [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
-* 动态改变状态栏模块
+* [动态改变状态栏模块](https://github.com/xqy666666/Kotlin-StausBarUtils)
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
