@@ -251,8 +251,9 @@ override fun onCreate(savedInstanceState: Bundle?) {
   }
 ```
 
-**10.AES数据加密**
+**10.数据加密**
 
+* AES加密
 ```
 //第一个参数是加密秘钥，第二个是加密内容
 val result = SecurityHelper.mInstance.encryptByAES("123",content)
@@ -261,6 +262,21 @@ val result = SecurityHelper.mInstance.encryptByAES("123",content)
 val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ```
+* RAS加密
+
+```
+//存储到本地
+val encodeContent = SecurityHelper.mInstance.encryptToLocalByRsa("123456","test")
+encodeView.text =encodeContent
+
+//从本地读取
+val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
+decodeView.text = decodeContent
+
+```
+<img src="https://github.com/xqy666666/UI/blob/master/rsa.gif" width="200" height="400"/>
+
+
 ### [动态权限模块简介](https://github.com/xqy666666/Kotlin-Permission)
 
 ### 1.依赖
