@@ -1,9 +1,9 @@
 
 # 1.模块简介
-
+**ViewModel+LiveData+Retrofit2+Realm+RxKotlin**
 ## 使用Kotlin基于Androidx的Android开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
-###  1.[UI模块](https://github.com/xqy666666/UI)
+###  [1.UI模块](https://github.com/xqy666666/UI)
 
 #### UI模块包含下面几个小模块：
 
@@ -11,15 +11,15 @@
 
 * [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
-* 动态改变状态栏模块
+* [动态改变状态栏模块](https://github.com/xqy666666/Kotlin-StausBarUtils)
 
-###  2.[跨组件通信模块](https://github.com/xqy666666/EventManager)
+###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
-###  2.[网络请求模块](https://github.com/xqy666666/UI)
+###  [3.网络请求模块](https://github.com/xqy666666/UI)
 
-###  3.[抽象业务模块]()
+###  [4.抽象业务模块]()
 
-###  4.[数据库模块]()
+###  [5.数据库模块]()
 
 建议使用单个Activity+多Fragment开发
 
@@ -265,15 +265,79 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ### 1.依赖
 
-[ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.3) ](https://bintray.com/xqy/maven/permission/1.0.3/link)
+[ ![Download](https://api.bintray.com/packages/xqy/maven/permission/images/download.svg?version=1.0.5) ](https://bintray.com/xqy/maven/permission/1.0.5/link)
 
-`implementation 'com.xqy.androidx.permission:permission:1.0.3'`
+`implementation 'com.xqy.androidx.permission:permission:1.0.5'`
+
+**获取单个权限**
+```
+textView.setOnClickListener {
+            PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,
+                hasPermission = { permission ->//该权限已获取
+
+                    alertMsg("$permission 已经获取"){
+
+                    }
+
+                },
+                observer = { permission, isGranted ->//请求权限的回调
+
+                    val msg = if (isGranted)"成功" else "失败"
+                    alertMsg("$permission 获取$msg"){
+
+                    }
+
+                    //toDoSomeThings
+                })
+        }
+```
+ <img src="https://github.com/xqy666666/UI/blob/master/permission.gif" width="200" height="400" alt="状态监听"/>
+ 
+ **获取多个权限**
+ 
+ ```
+ textView.setOnClickListener {
+            PermissionHelper.from(this).requestPermission(Manifest.permission.CAMERA,Manifest.permission.READ_PHONE_STATE,
+                hasPermission = { permission ->//该权限已获取
+
+                    alertMsg("$permission 已经获取"){
+
+                    }
+
+                },
+                observer = { permission, isGranted ->//请求权限的回调
+
+                    val msg = if (isGranted)"成功" else "失败"
+                    alertMsg("$permission 获取$msg"){
+
+                    }
+
+                    //toDoSomeThings
+                })
+        }
+ ```
+ 
+### [动态状态栏模块简介](https://github.com/xqy666666/Kotlin-StausBarUtils)
+
+### 1.依赖
+
+`implementation 'com.xqy.android.statusbar:statusbarUtils:1.0.0'`
+
+## 2.使用
+
+```
+在Activity的onCreate()方法中调用
+//isDark true表示黑色，false表示白色
+StatusBarUtils.setStatusBarMode(activity,isDark)
+
+```
+
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
 ### 1.依赖
 
-`implementation 'com.xqy.androidx.event:event:1.0.0'`
+`implementation 'com.xqy.androidx.event:event:1.0.1'`
 
 ### 2.使用
 
