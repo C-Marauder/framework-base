@@ -13,7 +13,7 @@
 
 * [动态改变状态栏模块](https://github.com/xqy666666/Kotlin-StausBarUtils)
 
-* [下载模块][https://github.com/xqy666666/Downloader]
+* [下载模块](https://github.com/xqy666666/Downloader)
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
