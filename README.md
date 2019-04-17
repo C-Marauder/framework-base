@@ -3,15 +3,17 @@
 **ViewModel+LiveData+Retrofit2+Realm+RxKotlin**
 ## 使用Kotlin基于Androidx的Android开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
-###  [1.UI模块](https://github.com/xqy666666/UI)
+###  [1.基础模块](https://github.com/xqy666666/UI)
 
-#### UI模块包含下面几个小模块：
+#### 基础模块包含下面几个小模块：
 
 * UI模板
 
 * [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
 * [动态改变状态栏模块](https://github.com/xqy666666/Kotlin-StausBarUtils)
+
+* [下载模块][https://github.com/xqy666666/Downloader]
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
