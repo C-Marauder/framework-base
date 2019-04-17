@@ -364,7 +364,9 @@ StatusBarUtils.setStatusBarMode(activity,isDark)
 ```
 
  <img src="https://github.com/xqy666666/framework/blob/master/statusbar.gif" width="200" height="400" />
-### [下载模块]
+ 
+### [下载模块简介](https://github.com/xqy666666/Downloader)
+
 ### 1.依赖
 
 `implementation 'com.xqy.androidx.downloader:downloader:1.0.1'`
