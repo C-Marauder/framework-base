@@ -267,7 +267,7 @@ val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 * RAS加密
 
-**先在Application的onCreate()中进行初始化
+**先在Application的onCreate()中进行初始化**
 
 ```
 SecurityHelper.init(this)
