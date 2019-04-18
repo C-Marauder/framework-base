@@ -7,7 +7,7 @@
 
 #### 基础模块包含下面几个小模块：
 
-* UI模板
+* [UI模块](https://github.com/xqy666666/framework)
 
 * [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
