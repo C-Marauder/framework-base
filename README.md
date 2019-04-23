@@ -31,7 +31,7 @@
 
 #### 1.依赖
 
-`implementation 'com.xqy.androidx.framework:framework:1.0.0`
+`implementation 'com.xqy.androidx.framework:framework-base:1.0.0'`
 
 **2.功能介绍**
 
