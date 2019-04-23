@@ -1,17 +1,19 @@
 
 # 1.模块简介
 **ViewModel+LiveData+Retrofit2+Realm+RxKotlin**
-## 使用Kotlin基于Androidx的Android开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
+## 使用Kotlin基于Androidx的MVVM开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
-###  [1.UI模块](https://github.com/xqy666666/UI)
+###  [1.基础模块](https://github.com/xqy666666/UI)
 
-#### UI模块包含下面几个小模块：
+#### 基础模块包含下面几个小模块：
 
-* UI模板
+* [UI模块](https://github.com/xqy666666/framework)
 
 * [动态权限模块](https://github.com/xqy666666/Kotlin-Permission)
 
 * [动态改变状态栏模块](https://github.com/xqy666666/Kotlin-StausBarUtils)
+
+* [下载模块](https://github.com/xqy666666/Downloader)
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
@@ -262,7 +264,15 @@ val result = SecurityHelper.mInstance.encryptByAES("123",content)
 val deResult = SecurityHelper.mInstance.decryptByAES(result)
 
 ```
+
 * RAS加密
+
+**先在Application的onCreate()中进行初始化**
+
+```
+SecurityHelper.init(this)
+
+```
 
 ```
 //存储到本地
@@ -273,6 +283,11 @@ encodeView.text =encodeContent
 val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
 decodeView.text = decodeContent
 
+//前后端交互
+//1.从后端获取公钥保存
+SecurityHelper.mInstance.saveBase64PubKey(publicKey)
+//2.加密内容        
+SecurityHelper.mInstance.encryptByRsa("111111")
 ```
 <img src="https://github.com/xqy666666/UI/blob/master/rsa.gif" width="200" height="400"/>
 
@@ -349,6 +364,12 @@ StatusBarUtils.setStatusBarMode(activity,isDark)
 ```
 
  <img src="https://github.com/xqy666666/framework/blob/master/statusbar.gif" width="200" height="400" />
+ 
+### [下载模块简介](https://github.com/xqy666666/Downloader)
+
+### 1.依赖
+
+`implementation 'com.xqy.androidx.downloader:downloader:1.0.1'`
 
 
 ## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
