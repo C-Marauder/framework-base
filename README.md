@@ -227,7 +227,34 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
-**8.防重复点击-直接调用该方法**
+**10.折叠列表**
+
+> **基于RecyclerView封装**
+
+```
+//调用RecyclerView的拓展方法
+ mRecyclerView.initRV{
+            it.addItemDecoration(AppItemDecoration(8,8,Color.GRAY))
+            val items = mutableListOf<String>()
+            for (i in 0..20){
+                items.add("$i")
+            }
+            it.adapter = ExpandableAdapter<String,ItemBinding,String,ItemChildBinding,ChildViewHolder>(items,{
+                Pair(R.layout.item,R.layout.item_child)
+            },{
+                itemDataBing,item-> itemDataBing.num = item
+
+            },{
+                    viewDataBinding, itemView -> ChildViewHolder(viewDataBinding,itemView)
+            },{
+                mutableListOf<String>("hahah","ppppp","建设大街世纪东方")
+            })
+            }
+        }
+```
+ <img src="https://github.com/xqy666666/framework/blob/master/expand.gif" width="200" height="400" />
+
+> 防重复点击-直接调用该方法
 
 ``` 
 yourView.onClick{
