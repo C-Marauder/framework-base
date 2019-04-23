@@ -1,37 +1,22 @@
 package com.example.ui
 
-import android.Manifest
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper
-import com.example.ui.databinding.FMyBinding
-import com.example.ui.databinding.ItemTestBinding
-import com.xqy.androidx.framework.adapter.AppAdapter
-import com.xqy.androidx.framework.adapter.MVVMAdapter
-import com.xqy.androidx.framework.behavior.ContentBehavior
-import com.xqy.androidx.framework.dialog.AppDialog
-import com.xqy.androidx.framework.dialog.DialogConfig
-import com.xqy.androidx.framework.network.NetWorkManager
-import com.xqy.androidx.framework.network.NetWorkState
-import com.xqy.androidx.framework.prefers.AppPreference
-import com.xqy.androidx.framework.security.SecurityHelper
-import com.xqy.androidx.framework.state.UIState
+import androidx.databinding.ViewDataBinding
+import com.example.ui.databinding.ItemBinding
+import com.example.ui.databinding.ItemChildBinding
+import com.xqy.androidx.framework.adapter.MVVMViewHolder
+import com.xqy.androidx.framework.adapter.decoration.AppItemDecoration
+import com.xqy.androidx.framework.adapter.expandable.ExpandableAdapter
+import com.xqy.androidx.framework.adapter.expandable.ExpandableViewHolder
+import com.xqy.androidx.framework.adapter.expandable.GROUP
 import com.xqy.androidx.framework.state.UIStateCallback
-import com.xqy.androidx.framework.state.UIStateManager
 import com.xqy.androidx.framework.template.UITemplate
 import com.xqy.androidx.framework.utils.*
-import com.xqy.androidx.permission.PermissionHelper
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.internal.operators.flowable.FlowablePublish
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.ConcurrentHashMap
 
 class MainActivity : AppCompatActivity(), UITemplate,
     UIStateCallback {
@@ -44,6 +29,9 @@ class MainActivity : AppCompatActivity(), UITemplate,
     }
     override val centerTitle: String = "Main"
     override val layoutResId: Int = R.layout.activity_main
+    private val adapterMap:ConcurrentHashMap<MVVMViewHolder<String,ItemBinding>,Int> by lazy {
+        ConcurrentHashMap<MVVMViewHolder<String,ItemBinding>,Int>()
+    }
     //var mUserId:Int by AppPreference(application,123)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,18 +42,43 @@ class MainActivity : AppCompatActivity(), UITemplate,
 //
 //        appLog(encodeResult)
 //        val result= SecurityHelper.mInstance.decryptByRsa(encodeResult,keyPair.private)
-        encodeView.setOnClickListener {
-            //存储到本地
-            val encodeContent = SecurityHelper.mInstance.encryptToLocalByRsa("123456","test")
-            encodeView.text =encodeContent
+//        encodeView.setOnClickListener {
+//            //存储到本地
+//            val encodeContent = SecurityHelper.mInstance.encryptToLocalByRsa("123456","test")
+//            encodeView.text =encodeContent
+//        }
+//
+//        decodeView.setOnClickListener {
+//            //从本地读取
+//            val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
+//            decodeView.text = decodeContent
+//        }
+//        val publicKey= Base64.encodeToString(SecurityHelper.mInstance.generateRSAKeyPair().public.encoded,Base64.DEFAULT)
+//
+//        SecurityHelper.mInstance.saveBase64PubKey(publicKey)
+//
+//        val encodeContent = SecurityHelper.mInstance.encryptByRsa("111111")
+//
+//        appLog(encodeContent!!)
+        mRecyclerView.initRV{
+            val rv =it
+            it.addItemDecoration(AppItemDecoration(8,8,Color.GRAY))
+            val items = mutableListOf<String>()
+            for (i in 0..20){
+                items.add("$i")
+            }
+            it.adapter = ExpandableAdapter<String,ItemBinding,String,ItemChildBinding,ChildViewHolder>(items,{
+                Pair(R.layout.item,R.layout.item_child)
+            },{
+                itemDataBing,item-> itemDataBing.num = item
+
+            },{
+                    viewDataBinding, itemView -> ChildViewHolder(viewDataBinding,itemView)
+            },{
+                mutableListOf<String>("hahah","ppppp","建设大街世纪东方")
+            })
+            }
         }
 
-        decodeView.setOnClickListener {
-            //从本地读取
-            val decodeContent = SecurityHelper.mInstance.decryptFromLocalByRsa("test")
-            decodeView.text = decodeContent
-        }
 
-
-    }
 }

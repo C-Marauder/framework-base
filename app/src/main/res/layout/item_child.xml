@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <variable name="num" type="java.lang.String"/>
+        <variable name="content" type="java.lang.String"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/title"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:text="@{num}"
-            >
+            android:layout_height="56dp"
+            android:textColor="@android:color/black"
+            android:background="@color/colorAccent"
+            android:text="@{content}">
 
     </androidx.appcompat.widget.AppCompatTextView>
 </layout>

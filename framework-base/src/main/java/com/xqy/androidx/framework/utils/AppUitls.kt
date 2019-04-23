@@ -20,6 +20,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.VirtualLayoutManager
@@ -28,11 +30,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.xqy.androidx.framework.R
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+inline fun <reified T:RecyclerView> T.initRV(init:(rv:RecyclerView)->Unit){
+    this.setHasFixedSize(true)
+    this.itemAnimator = DefaultItemAnimator()
+    this.layoutManager = LinearLayoutManager(this.context)
+    init(this)
+
+}
 inline fun <reified T : RecyclerView> T.initRecyclerView(): DelegateAdapter {
     this.setHasFixedSize(true)
     val mLayoutManager = VirtualLayoutManager(this.context)
@@ -284,7 +292,7 @@ inline fun <reified T:View> T.onClick(crossinline listener:(v:View)->Unit){
         }
 
     }, BackpressureStrategy.LATEST)
-        .throttleLast(500, TimeUnit.MILLISECONDS)
+        .throttleLast(200, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe { listener(it) }
 

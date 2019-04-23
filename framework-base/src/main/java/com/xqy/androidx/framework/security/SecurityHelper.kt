@@ -1,12 +1,12 @@
 package com.xqy.androidx.framework.security
 
 import android.app.Application
-import android.renderscript.Element
 import android.util.Base64
 import android.util.Log
-import com.xqy.androidx.framework.prefers.AppPreference
-import com.xqy.androidx.framework.utils.*
-import java.io.BufferedInputStream
+import com.xqy.androidx.framework.utils.appLog
+import com.xqy.androidx.framework.utils.readBytesFromFile
+import com.xqy.androidx.framework.utils.readFromFile
+import com.xqy.androidx.framework.utils.saveToFile
 import java.io.FileNotFoundException
 import java.security.*
 import java.security.cert.Certificate
@@ -30,6 +30,7 @@ class SecurityHelper private constructor() {
         private lateinit var mApplication: Application
         private const val RAS_PUB_KEY: String = "pubKey"
         private const val RAS_PRIVATE_KEY: String = "privateKey"
+        private const val RAS_HTTP_PUB_KEY:String = "rasHttpPubKey"
         fun init(application: Application) {
             mApplication = application
         }
@@ -105,14 +106,25 @@ class SecurityHelper private constructor() {
 
     }
 
+    fun savePubKey(publicKey: ByteArray){
+        mApplication.saveToFile(RAS_HTTP_PUB_KEY,publicKey)
+    }
+    fun saveBase64PubKey(publicKey: String){
+        val decodePubKey = Base64.decode(publicKey,Base64.DEFAULT)
+        mApplication.saveToFile(RAS_HTTP_PUB_KEY,decodePubKey)
+    }
+    fun encryptByRsa(content: String): String? {
+        try {
+            val publicKey = mApplication.readBytesFromFile(RAS_HTTP_PUB_KEY)
+            val pubKey = generateRSAPubKey(publicKey)
+            return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+                .apply { init(Cipher.ENCRYPT_MODE, pubKey) }
+                .doFinal(content.toByteArray()), Base64.DEFAULT)
+        }catch (e:FileNotFoundException){
+            Log.e(TAG,"there is no publicKey,please save publicKey before encode content")
+        }
 
-    fun encryptByRsa(content: String, publicKey: String): String {
-        val keySpec = X509EncodedKeySpec(publicKey.toByteArray())
-        val kf = KeyFactory.getInstance(RSA_TAG)
-        val mPublicKey = kf.generatePublic(keySpec)
-        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            .apply { init(Cipher.ENCRYPT_MODE, mPublicKey) }
-            .doFinal(content.toByteArray()), Base64.DEFAULT)
+        return null
     }
 
     fun generateRSAKeyPair(): KeyPair {
@@ -167,37 +179,37 @@ class SecurityHelper private constructor() {
         }
         return null
     }
+//
+//    fun encryptByRsa(content: String, publicKey: PublicKey): String {
+//
+//        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+//            .apply { init(Cipher.ENCRYPT_MODE, publicKey) }
+//            .doFinal(content.toByteArray()), Base64.DEFAULT)
+//    }
+//
+//    fun decryptByRsa(content: String, publicKey: PrivateKey): String {
+//        val decode = Base64.decode(content, Base64.DEFAULT)
+//
+//        return String(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+//            .apply { init(Cipher.DECRYPT_MODE, publicKey) }
+//            .doFinal(decode))
+//    }
 
-    fun encryptByRsa(content: String, publicKey: PublicKey): String {
-
-        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            .apply { init(Cipher.ENCRYPT_MODE, publicKey) }
-            .doFinal(content.toByteArray()), Base64.DEFAULT)
-    }
-
-    fun decryptByRsa(content: String, publicKey: PrivateKey): String {
-        val decode = Base64.decode(content, Base64.DEFAULT)
-
-        return String(Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            .apply { init(Cipher.DECRYPT_MODE, publicKey) }
-            .doFinal(decode))
-    }
-
-    fun encryptByRsa(content: String, publicKey: ByteArray): String {
-
-        val mPublicKey = generateRSAPubKey(publicKey)
-        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            .apply { init(Cipher.ENCRYPT_MODE, mPublicKey) }
-            .doFinal(content.toByteArray()), Base64.DEFAULT)
-    }
-
-    fun decryptByRsa(content: String, privateKey: ByteArray): String {
-
-        val mPrivateKey = generateRSAPrivateKey(privateKey)
-        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
-            .apply { init(Cipher.DECRYPT_MODE, mPublicKey) }
-            .doFinal(content.toByteArray()), Base64.DEFAULT)
-    }
+//    fun encryptByRsa(content: String, publicKey: ByteArray): String {
+//
+//        val mPublicKey = generateRSAPubKey(publicKey)
+//        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+//            .apply { init(Cipher.ENCRYPT_MODE, mPublicKey) }
+//            .doFinal(content.toByteArray()), Base64.DEFAULT)
+//    }
+//
+//    fun decryptByRsa(content: String, privateKey: ByteArray): String {
+//
+//        val mPrivateKey = generateRSAPrivateKey(privateKey)
+//        return Base64.encodeToString(Cipher.getInstance("RSA/ECB/PKCS1Padding")
+//            .apply { init(Cipher.DECRYPT_MODE, mPublicKey) }
+//            .doFinal(content.toByteArray()), Base64.DEFAULT)
+//    }
 
     private fun generateRSAPubKey(publicKey: ByteArray): PublicKey {
         val keySpec = X509EncodedKeySpec(publicKey)
