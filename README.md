@@ -227,7 +227,7 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
-**10.折叠列表**
+**[10.折叠列表](https://github.com/xqy666666/Kotlin-ExpandableRecyclerView)**
 
 > **基于RecyclerView封装**
 
