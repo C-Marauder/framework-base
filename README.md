@@ -422,7 +422,7 @@ StatusBarUtils.setStatusBarMode(activity,isDark)
 `implementation 'com.xqy.androidx.downloader:downloader:1.0.1'`
 
 
-## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
+## [2.跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
 ### 1.依赖
 
@@ -459,7 +459,7 @@ class BActivity:AppCompatActivity() {
 
 }
 ```
-## 2.[核心模块简介](https://github.com/xqy666666/Framework-core)
+## [3.核心模块简介](https://github.com/xqy666666/Framework-core)
 
 
 
