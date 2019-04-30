@@ -17,9 +17,7 @@
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
-###  [3.网络请求模块](https://github.com/xqy666666/UI)
-
-###  [4.抽象业务模块]()
+###  [3.核心模块](https://github.com/xqy666666/Framework-core)
 
 ###  [5.数据库模块]()
 
