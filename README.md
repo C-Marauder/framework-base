@@ -459,5 +459,8 @@ class BActivity:AppCompatActivity() {
 
 }
 ```
+## 2.[核心模块简介](https://github.com/xqy666666/Framework-core)
+
+
 
 
