@@ -25,11 +25,11 @@
 
 ### [UI模块简介](https://github.com/xqy666666/UI)
 
-[ ![Download](https://api.bintray.com/packages/xqy666666/maven/framework-base/images/download.svg?version=1.0.0) ](https://bintray.com/xqy666666/maven/framework-base/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/xqy666666/maven/framework-base/images/download.svg?version=1.0.2) ](https://bintray.com/xqy666666/maven/framework-base/1.0.2/link)
 
 #### 1.依赖
 
-`implementation 'com.xqy.androidx.framework:framework-base:1.0.0'`
+`implementation 'com.xqy.androidx.framework:framework-base:1.0.2'`
 
 **2.功能介绍**
 
