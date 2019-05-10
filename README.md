@@ -56,9 +56,10 @@ class App:Application() {
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
     
-    override val mScaffold: Boolean = false//true 基于CoordinatorLayout模板，false基于ConstraintLayout
-    override val centerTitle: String = "Main" //toolbar居中标题
-    override val layoutResId: Int = R.layout.activity_main//内容视图
+    override val mTemplate: Int = SCAFFLD//SCAFFLD 基于CoordinatorLayout模板，CONSTRAINT基于ConstraintLayout
+    override val mCenterTitle: String = "Main" //toolbar居中标题
+    override val mToolbarTitle: String = "hhhhh"//toolabr默认标题
+    override val mLayoutResId: Int = R.layout.activity_main//内容视图
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(createContentView())//调用createContentView()
@@ -70,8 +71,8 @@ class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITempla
 
 ```
 class UIFragment:Fragment(),UITemplate {
-    override val layoutResId: Int
-    override val centerTitle: String
+    override val mLayoutResId: Int
+    override val mCenterTitle: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return createContentView()
     }
