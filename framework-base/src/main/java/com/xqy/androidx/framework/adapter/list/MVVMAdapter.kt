@@ -1,4 +1,4 @@
-package com.xqy.androidx.framework.adapter
+package com.xqy.androidx.framework.adapter.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +10,12 @@ import com.alibaba.android.vlayout.LayoutHelper
 
 class MVVMAdapter<T, D : ViewDataBinding> private constructor(
 
-    private val builder: Builder<T,D>) :
+    private val builder: Builder<T, D>
+) :
     DelegateAdapter.Adapter<MVVMViewHolder<T, D>>() {
 
     companion object {
-        fun <T,D:ViewDataBinding>Builder(init:Builder<T,D>.()->Unit)= MVVMAdapter.Builder<T,D>().apply(init).build()
+        fun <T,D:ViewDataBinding>Builder(init: Builder<T, D>.()->Unit)= Builder<T, D>().apply(init).build()
     }
     class Builder<T,D:ViewDataBinding> {
         internal lateinit var items: MutableList<T>
@@ -31,7 +32,7 @@ class MVVMAdapter<T, D : ViewDataBinding> private constructor(
             this.items = init()
         }
 
-        fun viewHolder(init: (dataBinding: D, itemView: View)->MVVMViewHolder<T,D>){
+        fun viewHolder(init: (dataBinding: D, itemView: View)-> MVVMViewHolder<T, D>){
             this.createHolder = init
         }
 
@@ -42,7 +43,7 @@ class MVVMAdapter<T, D : ViewDataBinding> private constructor(
         fun layoutHelper(init: () -> LayoutHelper){
             this.layoutHelper = init()
         }
-        fun build()=MVVMAdapter(this)
+        fun build()= MVVMAdapter(this)
 
 
     }

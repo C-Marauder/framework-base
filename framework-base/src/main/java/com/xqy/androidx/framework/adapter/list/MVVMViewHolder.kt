@@ -1,4 +1,4 @@
-package com.xqy.androidx.framework.adapter
+package com.xqy.androidx.framework.adapter.list
 
 import android.view.View
 import androidx.databinding.ViewDataBinding

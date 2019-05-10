@@ -1,92 +1,115 @@
 package com.xqy.androidx.framework.adapter.expandable
-
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import java.util.concurrent.ConcurrentHashMap
 
-class ExpandableAdapter<T, GVDB : ViewDataBinding, E, CVDB : ViewDataBinding, CEVH : ExpandableViewHolder<E, CVDB>>(
-    private val groupItems: MutableList<T>,
-    private val contentLayoutResId: () -> Pair<Int, Int>,
-    private val bindGroupData: (viewDataBinding: GVDB, item: T) -> Unit,
-    private val mChildViewHolder: (viewDataBinding: CVDB, itemView: View) -> CEVH,
-    private val getChildItems: (position: Int) -> MutableList<E>,
-    private val headerLayoutResId: HeaderLayoutResId? = null,
-    private val footerLayoutResId: FooterLayoutResId? = null
-) : RecyclerView.Adapter<ExpandableViewHolder<Any, out ViewDataBinding>>() {
+class ExpandableAdapter private constructor(private val mBuilder: Builder) :
+    RecyclerView.Adapter<ExpandableViewHolder<Any, out ViewDataBinding>>() {
+    companion object {
+        private const val INVALID_LAYOUT = -1
 
-    private val realItems: MutableList<Any> by lazy {
-        mutableListOf<Any>()
+        fun builder(init: Builder.() -> Unit) = Builder().apply(init).build()
     }
-    private val mItemMap: ConcurrentHashMap<Int, Any> by lazy {
-        ConcurrentHashMap<Int, Any>()
+
+    private val mItemMap: ConcurrentHashMap<Int, Group<Any>> by lazy {
+        ConcurrentHashMap<Int, Group<Any>>()
     }
-    private val mItemTypes: ArrayList<Int> by lazy {
-        arrayListOf<Int>()
+    private val mItemTypes: ConcurrentHashMap<Int, Int> by lazy {
+        ConcurrentHashMap<Int, Int>()
     }
+
     private var itemCount: Int = 0
-    private var mGroupLayoutResId: Int = -1
-    private var mChildLayoutResId: Int = -1
 
     init {
-        if (headerLayoutResId == null && footerLayoutResId == null) {
+        val mGroupCount = mBuilder.mGroupItems.size
+        if (mBuilder.mHeaderLayout == INVALID_LAYOUT && mBuilder.mFooterLayout == INVALID_LAYOUT) {
 
-            itemCount = groupItems.size
+            itemCount = mGroupCount
 
         }
-        if (headerLayoutResId != null) {
-            itemCount = groupItems.size + 1
-        }
+        if (mBuilder.mHeaderLayout != INVALID_LAYOUT) {
+            itemCount = mGroupCount + 1
+            mItemTypes[0] = HEADER
+            mBuilder.mHeaderData?.let {
+                mItemMap[0] = Group(false,it)
 
-        if (footerLayoutResId != null) {
-            itemCount = if (itemCount == 0) {
-                groupItems.size + 1
-            } else {
-                groupItems.size + 2
             }
+
         }
-        val pair = contentLayoutResId()
-        mChildLayoutResId = pair.second
-        mGroupLayoutResId = pair.first
-        groupItems.forEach {
-            mItemTypes.add(GROUP)
-            realItems.add(it as Any)
+
+        mBuilder.mGroupItems.forEachIndexed { index, item ->
+            val realIndex = if (mBuilder.mHeaderLayout != INVALID_LAYOUT) {
+                index + 1
+            } else {
+                index
+            }
+            mItemTypes[realIndex] = GROUP
+            mItemMap[realIndex] = Group(false,item)
+        }
+
+        if (mBuilder.mFooterLayout != INVALID_LAYOUT) {
+            itemCount = if (itemCount == 0) {
+                mGroupCount + 1
+            } else {
+                mGroupCount + 2
+            }
+            mItemTypes[itemCount - 1] = FOOTER
+            mBuilder.mFooterData?.let {
+                mItemMap[itemCount - 1] = Group(false,it)
+            }
         }
 
     }
 
-    private fun expandGroupItems(position: Int, childItems: MutableList<E>) {
+    private fun <E> expandGroupItems(position: Int, childItems: MutableList<E>) {
         itemCount += childItems.size
+
+        val tempItemMap = ConcurrentHashMap<Int,Group<Any>>()
+        val tempItemTypeMap = ConcurrentHashMap<Int,Int>()
+        mItemMap.filterKeys {
+            it <= position
+        }.keys.forEachIndexed { index, i ->
+            tempItemMap[index] = mItemMap[i]!!
+            tempItemTypeMap[index] = mItemTypes[i]!!
+
+        }
         childItems.forEachIndexed { index, i ->
             val realIndex = position + index + 1
-            realItems.add(realIndex, i as Any)
-            mItemTypes.add(realIndex, CHILD)
+            tempItemMap[realIndex] = Group(false,i as Any)
+            tempItemTypeMap[realIndex] = CHILD
         }
-        mItemMap.clear()
-        realItems.forEachIndexed { index, any ->
-            mItemMap[index] = any
+        val newItemCount = tempItemMap.size
+        mItemMap.filterKeys {
+            it > position
+        }.keys.forEachIndexed { index, i ->
+            tempItemMap[newItemCount + index] = mItemMap[i]!!
+            tempItemTypeMap[newItemCount + index] = mItemTypes[i]!!
+
+        }
+        tempItemMap.keys.forEachIndexed { index, i ->
+            mItemMap[index] = tempItemMap[i]!!
+            mItemTypes[index] = tempItemTypeMap[i]!!
         }
         notifyItemRangeInserted(position + 1, childItems.size)
 
     }
 
-    private fun removeGroupItems(position: Int, childItems: MutableList<E>) {
+    private fun <E> removeGroupItems(position: Int, childItems: MutableList<E>) {
         itemCount -= childItems.size
-        childItems.forEachIndexed { index, item ->
-            val realIndex = position + index + 1
-            realItems.remove(item as Any)
-            mItemTypes.removeAt(realIndex)
+        mItemMap.filterKeys {
+            it<=position || it>position+childItems.size
+        }.keys.forEachIndexed { index, i ->
+            Log.e("==$position=","$index---$i")
+            mItemMap[index] = mItemMap[i]!!
+            mItemTypes[index] = mItemTypes[i]!!
 
         }
-        mItemTypes[position+1] = GROUP
-        mItemMap.clear()
-        realItems.forEachIndexed { index, any ->
-            mItemMap[index] = any
-        }
+
+
         notifyItemRangeRemoved(position + 1, childItems.size)
 
 
@@ -96,64 +119,126 @@ class ExpandableAdapter<T, GVDB : ViewDataBinding, E, CVDB : ViewDataBinding, CE
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpandableViewHolder<Any, out ViewDataBinding> {
         val layoutInflater = LayoutInflater.from(parent.context)
         val layoutResId = when (viewType) {
-            GROUP -> mGroupLayoutResId
-            CHILD -> mChildLayoutResId
-            else -> 0
+            GROUP -> mBuilder.mGroupLayout
+            CHILD -> mBuilder.mChildLayout
+            HEADER -> mBuilder.mHeaderLayout
+            FOOTER -> mBuilder.mFooterLayout
+            else -> -1
         }
+        val dataBinding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, layoutResId, parent, false)
 
+        return when (viewType) {
+            GROUP -> {
+                GroupViewHolder(dataBinding, dataBinding.root, {
+                    mBuilder.mBindGroupItemData.invoke(it, dataBinding)
+                }, { isExpanded, position ->
+                    val childItems = mBuilder.mChildItemData.invoke(position)
+                    if (isExpanded) {
+                        removeGroupItems(position, childItems)
+                    } else {
+                        expandGroupItems(position, childItems)
+                    }
+                    Log.e("===","$isExpanded----$position")
+                    mItemMap[position]!!.isExpanded = !isExpanded
+                    notifyItemChanged(position)
+                })
+            }
+            CHILD -> {
 
-        return if (viewType == GROUP) {
-            val dataBinding = DataBindingUtil.inflate<GVDB>(layoutInflater, layoutResId, parent, false)
-            GroupViewHolder<T, GVDB>(dataBinding, dataBinding.root, {
-                bindGroupData(dataBinding, it)
-            }, { isExpanded, position ->
-                val childItems = getChildItems(position)
-                if (isExpanded) {
-                    removeGroupItems(position, childItems)
-                } else {
-                    expandGroupItems(position, childItems)
+                mBuilder.mCreateChildViewHolder.invoke(dataBinding, dataBinding.root)
+            }
+
+            HEADER -> {
+                HeaderAndFooterViewHolder(dataBinding, dataBinding.root) {
+                    mBuilder.mBindHeaderItemData.invoke(it, dataBinding)
                 }
-            }) as ExpandableViewHolder<Any, out ViewDataBinding>
-        } else {
-            val dataBinding = DataBindingUtil.inflate<CVDB>(layoutInflater, layoutResId, parent, false)
+            }
+            FOOTER -> {
+                HeaderAndFooterViewHolder(dataBinding, dataBinding.root) {
+                    mBuilder.mBindFooterItemData.invoke(it, dataBinding)
+                }
+            }
 
-            mChildViewHolder(dataBinding, dataBinding.root) as ExpandableViewHolder<Any, out ViewDataBinding>
+            else -> throw Exception("unKnow ViewType")
         }
+
+
     }
 
 
     override fun getItemCount(): Int = itemCount
 
     override fun getItemViewType(position: Int): Int {
-        if (headerLayoutResId != null && position == 0) {
-            return headerLayoutResId.invoke()
-        }
 
-        if (footerLayoutResId != null && position == itemCount - 1) {
-            return footerLayoutResId.invoke()
-        }
-        return mItemTypes[position]
+        return mItemTypes[position]!!
     }
 
     override fun onBindViewHolder(holder: ExpandableViewHolder<Any, out ViewDataBinding>, position: Int) {
-        if (headerLayoutResId == null && footerLayoutResId == null) {
-            holder.bindItemData(realItems[position])
-
-            return
-        }
-
-
-        if (headerLayoutResId != null && footerLayoutResId == null) {
-            holder.bindItemData(realItems[position - 1])
-            return
-        }
-
-        if (headerLayoutResId == null && footerLayoutResId != null) {
-            if (position != itemCount - 1) {
-                holder.bindItemData(realItems[position])
-
-            }
-        }
+        holder.bindItemData(mItemMap[position]!!)
     }
 
+    class Builder {
+        internal lateinit var mGroupItems: MutableList<Any>
+        internal var mGroupLayout: Int = -1
+        internal var mChildLayout: Int = -1
+        internal var mHeaderLayout: Int = -1
+        internal var mFooterLayout: Int = -1
+        internal lateinit var mBindGroupItemData: BindItemData<Any>
+        internal lateinit var mBindFooterItemData: BindItemData<Any>
+        internal lateinit var mChildItemData: ChildItemData<*>
+        internal var mHeaderData: Any? = null
+        internal var mFooterData: Any? = null
+        internal lateinit var mBindHeaderItemData: BindItemData<Any>
+        internal lateinit var mCreateChildViewHolder: CreateChildViewHolder<Any>
+        fun <T> groupItems(init: () -> MutableList<T>) {
+            this.mGroupItems = init() as MutableList<Any>
+        }
+
+        fun headerLayout(init: () -> Int) {
+            this.mHeaderLayout = init()
+        }
+
+        fun footerLayout(init: () -> Int) {
+            this.mFooterLayout = init()
+        }
+
+        fun groupLayout(init: () -> Int) {
+            this.mGroupLayout = init()
+        }
+
+        fun childLayout(init: () -> Int) {
+            this.mChildLayout = init()
+        }
+
+        fun <T> getHeaderItemData(init: () -> T) {
+            this.mHeaderData = init() as Any
+        }
+
+        fun <T> getFooterItemData(init: () -> T) {
+            this.mFooterData = init()
+        }
+
+        fun <T> bindHeaderItemData(bindItemData: BindItemData<T>) {
+            this.mBindHeaderItemData = bindItemData as BindItemData<Any>
+        }
+
+        fun <T> bindFooterItemData(bindItemData: BindItemData<T>) {
+            this.mBindFooterItemData = bindItemData as BindItemData<Any>
+        }
+
+        fun <T> bindGroupItemData(bindItemData: BindItemData<T>) {
+            this.mBindGroupItemData = bindItemData as BindItemData<Any>
+        }
+
+
+        fun <T> createChildViewHolder(childViewHolder: CreateChildViewHolder<T>) {
+            this.mCreateChildViewHolder = childViewHolder as CreateChildViewHolder<Any>
+        }
+
+        fun <T> childItems(childItemData: ChildItemData<T>) {
+            this.mChildItemData = childItemData
+        }
+
+        internal fun build() = ExpandableAdapter(this)
+    }
 }

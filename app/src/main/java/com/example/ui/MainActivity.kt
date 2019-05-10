@@ -1,21 +1,11 @@
 package com.example.ui
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.databinding.ViewDataBinding
 import com.example.ui.databinding.ItemBinding
-import com.example.ui.databinding.ItemChildBinding
-import com.xqy.androidx.framework.adapter.MVVMViewHolder
-import com.xqy.androidx.framework.adapter.decoration.AppItemDecoration
-import com.xqy.androidx.framework.adapter.expandable.ExpandableAdapter
-import com.xqy.androidx.framework.adapter.expandable.ExpandableViewHolder
-import com.xqy.androidx.framework.adapter.expandable.GROUP
+import com.xqy.androidx.framework.adapter.list.MVVMViewHolder
 import com.xqy.androidx.framework.state.UIStateCallback
 import com.xqy.androidx.framework.template.UITemplate
-import com.xqy.androidx.framework.utils.*
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.ConcurrentHashMap
 
 class MainActivity : AppCompatActivity(), UITemplate,
@@ -27,11 +17,12 @@ class MainActivity : AppCompatActivity(), UITemplate,
     override val mEmptyResId: Int by lazy {
         R.drawable.ic_empty
     }
-    override val centerTitle: String = "Main"
-    override val layoutResId: Int = R.layout.activity_main
-    private val adapterMap:ConcurrentHashMap<MVVMViewHolder<String,ItemBinding>,Int> by lazy {
-        ConcurrentHashMap<MVVMViewHolder<String,ItemBinding>,Int>()
+    override val mToolbarTitle: String = "hhhhh"
+    override val mLayoutResId: Int = R.layout.activity_main
+    private val adapterMap: ConcurrentHashMap<MVVMViewHolder<String, ItemBinding>, Int> by lazy {
+        ConcurrentHashMap<MVVMViewHolder<String, ItemBinding>, Int>()
     }
+
     //var mUserId:Int by AppPreference(application,123)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,25 +51,8 @@ class MainActivity : AppCompatActivity(), UITemplate,
 //        val encodeContent = SecurityHelper.mInstance.encryptByRsa("111111")
 //
 //        appLog(encodeContent!!)
-        mRecyclerView.initRV{
-            val rv =it
-            it.addItemDecoration(AppItemDecoration(8,8,Color.GRAY))
-            val items = mutableListOf<String>()
-            for (i in 0..20){
-                items.add("$i")
-            }
-            it.adapter = ExpandableAdapter<String,ItemBinding,String,ItemChildBinding,ChildViewHolder>(items,{
-                Pair(R.layout.item,R.layout.item_child)
-            },{
-                itemDataBing,item-> itemDataBing.num = item
 
-            },{
-                    viewDataBinding, itemView -> ChildViewHolder(viewDataBinding,itemView)
-            },{
-                mutableListOf<String>("hahah","ppppp","建设大街世纪东方")
-            })
-            }
-        }
+    }
 
 
 }

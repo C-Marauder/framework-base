@@ -6,7 +6,8 @@ import com.xqy.androidx.framework.adapter.expandable.ExpandableViewHolder
 
 class ChildViewHolder(viewDataBinding: ItemChildBinding, itemView: View) :
     ExpandableViewHolder<String, ItemChildBinding>(viewDataBinding, itemView) {
-    override fun bindItemData(item: String) {
+    override fun bindData(item: String) {
         viewDataBinding.content = item
+
     }
 }

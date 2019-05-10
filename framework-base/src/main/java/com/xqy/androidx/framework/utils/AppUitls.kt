@@ -100,7 +100,7 @@ inline fun <reified T : Fragment> T.getInstance(vararg pair: Pair<String, Any>):
     return fragment
 }
 
-inline fun <reified T : Application> T.appColor(resId: Int): Int {
+inline fun <reified T : Application> T.colorRes(resId: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         this.getColor(resId)
     } else {
@@ -114,6 +114,9 @@ val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).to
 val Int.dp: Int get() = Math.round(this * Resources.getSystem().displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)
 
 val Int.sp: Float get() = this * Resources.getSystem().displayMetrics.scaledDensity + 0.5f
+
+val Int.text:String get() = Resources.getSystem().getString(this)
+
 
 inline fun <reified T : Application> T.toast(msg: String, gravity: Int = Gravity.BOTTOM, isLong: Boolean = true) {
     val type = if (isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT

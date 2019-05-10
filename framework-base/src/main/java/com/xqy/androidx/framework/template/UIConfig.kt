@@ -9,11 +9,14 @@ class UIConfig private constructor() {
         internal var navIcon: Int = 0
         internal var canScroll: Boolean = true
         internal var clearElevation: Boolean = false
+        internal var titlePadding:Int = 0
         fun Builder(init: Builder.() -> Unit) = Builder().apply(init)
     }
 
     class Builder {
-
+        fun titlePadding(init: () -> Int){
+            titlePadding = init()
+        }
         fun clearElevation(init: () -> Boolean) {
             clearElevation = init()
         }

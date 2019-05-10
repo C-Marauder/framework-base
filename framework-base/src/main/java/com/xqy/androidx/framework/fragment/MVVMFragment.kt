@@ -12,13 +12,14 @@ import androidx.fragment.app.Fragment
 import com.xqy.androidx.framework.template.UITemplate
 
 abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
-    open val onBackPressed: Function0<Unit> ?=null
+
+    open val onFragmentCallback: OnFragmentBackPressed ?=null
     lateinit var mViewDataBinding: T
     lateinit var mFragmentCallback: FragmentCallback
     private lateinit var mAppCompatActivity: AppCompatActivity
     open val enableMenu:Boolean = false
     override fun inflateContentView(rootView: ViewGroup): View {
-        mViewDataBinding = DataBindingUtil.inflate<T>(layoutInflater,layoutResId,rootView,false)
+        mViewDataBinding = DataBindingUtil.inflate(layoutInflater,mLayoutResId,rootView,false)
         return mViewDataBinding.root
     }
 
@@ -42,9 +43,9 @@ abstract class MVVMFragment<T:ViewDataBinding>:Fragment(), UITemplate {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onBackPressed?.let {
+        onFragmentCallback?.let {
             this.mAppCompatActivity.onBackPressedDispatcher.addCallback {
-                it()
+                it.invoke()
                 true
             }
         }
