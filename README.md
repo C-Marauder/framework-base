@@ -1,6 +1,7 @@
 
 # 1.模块简介
-**ViewModel+LiveData+Retrofit2+Realm+RxKotlin**
+**ViewModel+LiveData+Retrofit2+Realm+RxKotlin 建议使用单个Activity+多Fragment开发**
+
 ## 使用Kotlin基于Androidx的MVVM开发框架,每个模块都是独立的，可自由组装。目前分为四个模块：
 
 ###  [1.基础模块](https://github.com/xqy666666/UI)
@@ -17,21 +18,17 @@
 
 ###  [2.跨组件通信模块](https://github.com/xqy666666/EventManager)
 
-###  [3.网络请求模块](https://github.com/xqy666666/UI)
+###  [3.核心模块](https://github.com/xqy666666/Framework-core)
 
-###  [4.抽象业务模块]()
-
-###  [5.数据库模块]()
-
-建议使用单个Activity+多Fragment开发
+###  [4.数据库模块](https://github.com/xqy666666/realm)
 
 ### [UI模块简介](https://github.com/xqy666666/UI)
 
-[ ![Download](https://api.bintray.com/packages/xqy/maven/framework/images/download.svg?version=1.0.0) ](https://bintray.com/xqy/maven/framework/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/xqy666666/maven/framework-base/images/download.svg?version=1.0.2) ](https://bintray.com/xqy666666/maven/framework-base/1.0.2/link)
 
 #### 1.依赖
 
-`implementation 'com.xqy.androidx.framework:framework:1.0.0`
+`implementation 'com.xqy.androidx.framework:framework-base:1.0.2'`
 
 **2.功能介绍**
 
@@ -227,7 +224,59 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
         }, LinearLayoutHelper())
         delegateAdapter.addAdapter(adapters)
 ```
-**8.防重复点击-直接调用该方法**
+**[10.折叠列表](https://github.com/xqy666666/Kotlin-ExpandableRecyclerView)**
+
+> **基于RecyclerView封装**
+
+```
+//调用RecyclerView的拓展方法
+ mRecyclerView.initRV {
+            val rv = it
+            it.addItemDecoration(AppItemDecoration(8, 8, Color.GRAY))
+            val items = mutableListOf<String>()
+            for (i in 0..20) {
+                items.add("$i")
+            }
+            it.adapter = ExpandableAdapter.builder {
+                groupLayout {
+                    R.layout.item
+                }
+                headerLayout {
+                    R.layout.item_test
+                }
+                getHeaderItemData {
+                    "我是头部"
+                }
+                bindHeaderItemData<String> {
+                    item, dataBinding ->  (dataBinding as ItemTestBinding).num = item
+                }
+                childLayout {
+                    R.layout.item_child
+                }
+
+                groupItems {
+                    items
+                }
+
+                childItems { position ->
+                    mutableListOf("hahah", "ppppp", "建设大街世纪东方")
+
+                }
+                bindGroupItemData<String> { item, dataBinding ->
+                    (dataBinding as ItemBinding).num = item
+                }
+
+
+
+                createChildViewHolder {
+                    dataBinding, itemView ->  ChildViewHolder(dataBinding as ItemChildBinding,itemView)
+                }
+            }
+        }
+```
+ <img src="https://github.com/xqy666666/framework/blob/master/expand.gif" width="200" height="400" />
+
+> 防重复点击-直接调用该方法
 
 ``` 
 yourView.onClick{
@@ -372,7 +421,7 @@ StatusBarUtils.setStatusBarMode(activity,isDark)
 `implementation 'com.xqy.androidx.downloader:downloader:1.0.1'`
 
 
-## 2.[跨组件通信模块简介](https://github.com/xqy666666/EventManager)
+## [2.跨组件通信模块简介](https://github.com/xqy666666/EventManager)
 
 ### 1.依赖
 
@@ -409,5 +458,8 @@ class BActivity:AppCompatActivity() {
 
 }
 ```
+## [3.核心模块简介](https://github.com/xqy666666/Framework-core)
+
+
 
 
