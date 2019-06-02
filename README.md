@@ -190,40 +190,43 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
 **7.列表**
 
-> **列表是基于阿里的vLayout封装的**
-
 ```
- val delegateAdapter = mRecyclerView.initRecyclerView()//初始化参数
-        for (i in 0..20){
-            val adapter = AppAdapter<String>("3",{
-                R.layout.item
-            },{
-                MyViewHolder({
+ 
+ //原生调用
+ val adapter = AdapterHelperUtils.creator<DayModel,DCalendarBinding>{
+                        items {
+                            it!!
+                        }
 
-                    loadingFragment.show(supportFragmentManager,"loading")
-                    //startActivity(Intent(this@MainActivity,MyActivity::class.java))
+                        layoutResId {
+                            R.layout.d_calendar
+                        }
 
-                },it)
-            }, LinearLayoutHelper())
-            delegateAdapter.addAdapter(adapter)
+                        viewHolder { dataBinding, itemView ->
+                            CalendarViewHolder(dataBinding,itemView)
+                        }
 
- }
- 或者
-  val items = arrayListOf<String>()
-        for (i in 0 ..20){
-            items.add("$i")
-        }
-        val adapters = AppAdapter<String>(items,{
-            R.layout.item
-        },{
-            MyViewHolder({
-
-                loadingFragment.show(supportFragmentManager,"loading")
-                //startActivity(Intent(this@MainActivity,MyActivity::class.java))
-
-            },it)
-        }, LinearLayoutHelper())
-        delegateAdapter.addAdapter(adapters)
+                    }.createAdapter(true)//true 表示android原生Adapter，false表示vLayout的Adapter
+ mRecyclerView.initRV {
+                        it.layoutManager = mView.mGridLayoutManager
+                        it.adapter = adapter
+                    }
+//vLayout调用                    
+val delegateAdapter = recyclerView.initRecyclerView()
+        delegateAdapter.addAdapter(AdapterHelperUtils.creator<RelaxationModel,DAppCardBinding>{
+            layoutHelper {
+                GridLayoutHelper(3,3)
+            }
+            viewHolder { dataBinding, itemView ->
+                RelaxCardViewHolder(dataBinding,itemView)
+            }
+            layoutResId {
+                R.layout.d_app_card
+            }
+            items {
+                list
+            }
+        }.createAdapter(false) as DelegateAdapter.Adapter<*>)  
 ```
 **[10.折叠列表](https://github.com/xqy666666/Kotlin-ExpandableRecyclerView)**
 
@@ -277,14 +280,6 @@ class MyFragment : Fragment(),UITemplate, UIStateCallback {
 ```
  <img src="https://github.com/xqy666666/framework/blob/master/expand.gif" width="200" height="400" />
 
-> 防重复点击-直接调用该方法
-
-``` 
-yourView.onClick{
-    //doThings()
-}
-
-```
 > **当UITemplate的参数mScaffold=false时，toolbar不会随列表滚动**
 
 <div >
