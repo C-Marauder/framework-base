@@ -1,25 +1,42 @@
 package com.xqy.androidx.framework.template
-import android.view.Gravity
-import android.view.LayoutInflater
+
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 import com.xqy.androidx.framework.state.UIStateCallback
-import com.google.android.material.appbar.AppBarLayout
+import com.xqy.androidx.framework.template.creator.AppbarCreator
+import com.xqy.androidx.framework.template.creator.ContentCreator
+import com.xqy.androidx.framework.template.creator.UIStateCreator
+import com.xqy.androidx.framework.template.creator.model.ConstrainSetModel
+import com.xqy.androidx.framework.template.creator.model.UIModel
+
 
 interface UITemplate {
+    companion object {
+        internal var titleSize: Float = 16f
+        internal var titleColor: Int = android.R.color.background_light
+        internal var navIcon: Int = 0
+        internal var canScroll: Boolean = true
+        internal var clearElevation: Boolean = false
+        internal var titlePadding: Int = 0
+        fun Builder(init: Builder.() -> Unit) = Builder().apply(init)
+    }
 
+    val mTemplate: Int
     val mLayoutResId: Int
-    val mTemplate: Int get() = SCAFFLD
     val mCenterTitle: String? get() = null
     val mToolbarTitle: String get() = ""
     val mEnableArrowIcon: Boolean get() = true
     val mIsNeedToolbar: Boolean get() = true
+    val handleNavListener: () -> Boolean
+        get() = {
+            false
+        }
+
     fun handleNavListener(): Boolean {
         return false
     }
@@ -35,73 +52,93 @@ interface UITemplate {
             }
         }
 
-
     fun inflateContentView(rootView: ViewGroup): View {
-        return LayoutInflater.from(mActivity).inflate(mLayoutResId, rootView, false)
+        return mActivity.layoutInflater.inflate(mLayoutResId, rootView, false)
     }
 
     fun createContentView(): View {
-        val templateView = TemplateCreator(mActivity).createTemplate(mTemplate)
-        var appBarLayout:AppBarLayout?=null
-        if (mIsNeedToolbar) {
-            appBarLayout = AppbarCreator(mActivity).createAppbarLayout().apply {
-                val mToolbarCreator = ToolbarCreator(mActivity).createToolbar(mToolbarTitle,mEnableArrowIcon,mCenterTitle){
-                    handleNavListener()
+
+        var constrainSetModel: ConstrainSetModel? = null
+        val template = when (mTemplate) {
+            SCAFFOLD -> CircularRevealCoordinatorLayout(mActivity)
+            CONSTRAINT -> {
+                ConstraintLayout(mActivity).apply {
+                    val constraintSet = ConstraintSet()
+                    constraintSet.clone(this)
+                    constrainSetModel =
+                        ConstrainSetModel(constraintSet = constraintSet)
                 }
-                addView(mToolbarCreator, -1, -2)
-                templateView.addView(this, -1, -2)
             }
-
+            else -> throw IllegalArgumentException("unKnow template")
         }
-
-        val content = inflateContentView(templateView)
-        templateView.addView(content)
-        var mStateView:AppCompatImageView?=null
-        if (this is UIStateCallback) {
-            mStateView = UIStateCreator(mActivity).createStateView(this)
-            templateView.addView(mStateView)
+        val mUIStateCallback = if (this is UIStateCallback) {
+            this
+        } else {
+            null
         }
-        if (mTemplate == SCAFFLD) {
-            mStateView?.let {
-                val mStateImageViewLp = it.layoutParams as CoordinatorLayout.LayoutParams
-                mStateImageViewLp.behavior = AppBarLayout.ScrollingViewBehavior()
-                mStateImageViewLp.gravity = Gravity.CENTER
-                it.layoutParams = mStateImageViewLp
+        val mUIModel = UIModel(
+            mIsNeedToolbar,
+            mToolbarTitle,
+            mEnableArrowIcon,
+            inflateContentView(template),
+            mCenterTitle,
+            mUIStateCallback,
+            handleNavListener
+        )
 
+        if (mUIModel.isNeedToolbar) {
+            with(AppbarCreator()) {
+                val mContentView = inflateContentView(template)
+                mUIModel.contentView = mContentView
+                mNextUICreator = ContentCreator().apply {
+                    mUIModel.uiStateCallback?.let {
+                        mNextUICreator = UIStateCreator()
+                    }
+                }
+                assembleWidget(template, mUIModel, constrainSetModel)
             }
 
         } else {
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(templateView as ConstraintLayout)
-            appBarLayout?.let {
-                constraintSet.constrainWidth(it.id, 0)
-                constraintSet.connect(it.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                constraintSet.connect(it.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                constraintSet.connect(it.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            with(ContentCreator()) {
+                val mContentView = inflateContentView(template)
+                mUIModel.contentView = mContentView
+                mUIModel.uiStateCallback?.let {
+                    mNextUICreator = UIStateCreator()
+                }
+                assembleWidget(template, mUIModel, constrainSetModel)
             }
 
-            constraintSet.constrainWidth(content.id, 0)
-            constraintSet.constrainHeight(content.id, 0)
-            constraintSet.connect(content.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-            constraintSet.connect(content.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-            if (appBarLayout == null){
-                constraintSet.connect(content.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-            }else{
-                constraintSet.connect(content.id, ConstraintSet.TOP, appBarLayout.id, ConstraintSet.BOTTOM)
-            }
-            constraintSet.connect(content.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-            mStateView?.let {
-                constraintSet.connect(it.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                constraintSet.connect(it.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                constraintSet.connect(it.id, ConstraintSet.TOP, content.id, ConstraintSet.TOP)
-                constraintSet.connect(it.id, ConstraintSet.BOTTOM, content.id, ConstraintSet.BOTTOM)
-
-            }
-
-            constraintSet.applyTo(templateView)
         }
 
-        return templateView
+        return template
+    }
+
+
+    class Builder {
+        fun titlePadding(init: () -> Int) {
+            titlePadding = init()
+        }
+
+        fun clearElevation(init: () -> Boolean) {
+            clearElevation = init()
+        }
+
+        fun behavior(init: () -> Boolean) {
+            canScroll = init()
+        }
+
+        fun titleSize(init: () -> Float) {
+            titleSize = init()
+        }
+
+        fun titleColor(init: () -> Int) {
+            titleColor = init()
+        }
+
+        fun navIcon(init: () -> Int) {
+            navIcon = init()
+        }
+
     }
 
 

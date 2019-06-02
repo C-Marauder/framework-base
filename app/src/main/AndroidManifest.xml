@@ -3,6 +3,11 @@
           package="com.example.ui">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- 闪光灯权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- 振动器权限 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"

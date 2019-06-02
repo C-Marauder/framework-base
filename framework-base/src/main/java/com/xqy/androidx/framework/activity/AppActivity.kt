@@ -6,7 +6,7 @@ import com.xqy.androidx.framework.fragment.FragmentCallback
 
 abstract class AppActivity<T:ViewDataBinding>:AppCompatActivity(), FragmentCallback {
     lateinit var mDataBinding:T
-    override fun onResponse(vararg pair: Pair<String, Any>) {
+    override fun onResponse(vararg pair: Pair<String, Any?>?) {
 
     }
 }

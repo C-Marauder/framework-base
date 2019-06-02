@@ -1,6 +1,5 @@
 package com.xqy.androidx.framework.utils
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
@@ -28,16 +27,11 @@ import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.xqy.androidx.framework.R
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 inline fun <reified T:RecyclerView> T.initRV(init:(rv:RecyclerView)->Unit){
     this.setHasFixedSize(true)
     this.itemAnimator = DefaultItemAnimator()
-    this.layoutManager = LinearLayoutManager(this.context)
     init(this)
 
 }
@@ -99,6 +93,7 @@ inline fun <reified T : Fragment> T.getInstance(vararg pair: Pair<String, Any>):
     }
     return fragment
 }
+
 
 inline fun <reified T : Application> T.colorRes(resId: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -286,18 +281,18 @@ inline fun <reified T : Application> T.deleteAllFile() {
     )
 }
 
-
-@SuppressLint("CheckResult")
-inline fun <reified T:View> T.onClick(crossinline listener:(v:View)->Unit){
-    Flowable.create<View>({
-        this.setOnClickListener {v ->
-            it.onNext(v)
-        }
-
-    }, BackpressureStrategy.LATEST)
-        .throttleLast(200, TimeUnit.MILLISECONDS)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe { listener(it) }
-
-}
+//
+//@SuppressLint("CheckResult")
+//inline fun <reified T:View> T.onClick(crossinline listener:(v:View)->Unit){
+//    Flowable.create<View>({
+//        this.setOnClickListener {v ->
+//            it.onNext(v)
+//        }
+//
+//    }, BackpressureStrategy.LATEST)
+//        .throttleLast(200, TimeUnit.MILLISECONDS)
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe { listener(it) }
+//
+//}
 

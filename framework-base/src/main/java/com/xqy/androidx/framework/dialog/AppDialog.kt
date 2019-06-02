@@ -62,8 +62,6 @@ class AppDialog: AppCompatDialogFragment() {
                     mBuilder.dialogHeight
                 }
                 window.setLayout(mWidth,mHeight)
-
-//                mRadiusDrawable.setColor(ContextCompat.getColor(context!!,android.R.color.background_light))
                 if (mBuilder.dimAmount!=-1f){
                     window.setDimAmount(mBuilder.dimAmount)
 

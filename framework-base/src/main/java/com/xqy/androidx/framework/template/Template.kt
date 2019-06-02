@@ -1,4 +1,4 @@
 package com.xqy.androidx.framework.template
 
-const val SCAFFLD:Int = 1
-const val CONSTRAINT:Int = 2
+const val SCAFFOLD = 1
+const val CONSTRAINT =2
