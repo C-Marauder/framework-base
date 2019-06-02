@@ -24,11 +24,11 @@
 
 ### [UI模块简介](https://github.com/xqy666666/UI)
 
-[ ![Download](https://api.bintray.com/packages/xqy666666/maven/framework-base/images/download.svg?version=1.0.2) ](https://bintray.com/xqy666666/maven/framework-base/1.0.2/link)
+[ ![Download](https://api.bintray.com/packages/xqy666666/maven/framework-base/images/download.svg?version=1.0.4) ](https://bintray.com/xqy666666/maven/framework-base/1.0.4/link)
 
 #### 1.依赖
 
-`implementation 'com.xqy.androidx.framework:framework-base:1.0.2'`
+`implementation 'com.xqy.androidx.framework:framework-base:1.0.4'`
 
 **2.功能介绍**
 
@@ -40,7 +40,7 @@ class App:Application() {
     override fun onCreate() {
         super.onCreate()
 
-        UIConfig.Builder {
+        UITemplate.Builder {
             titleColor {  }//toolbar标题的颜色
             titleSize {  }//toolbar标题的字体大小
             navIcon {  }//导航icon
@@ -56,9 +56,10 @@ class App:Application() {
 ```
 class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITemplate接口
     
-    override val mScaffold: Boolean = false//true 基于CoordinatorLayout模板，false基于ConstraintLayout
-    override val centerTitle: String = "Main" //toolbar居中标题
-    override val layoutResId: Int = R.layout.activity_main//内容视图
+    override val mTemplate: Int = SCAFFLD//SCAFFLD 基于CoordinatorLayout模板，CONSTRAINT基于ConstraintLayout
+    override val mCenterTitle: String = "Main" //toolbar居中标题
+    override val mToolbarTitle: String = "hhhhh"//toolabr默认标题
+    override val mLayoutResId: Int = R.layout.activity_main//内容视图
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(createContentView())//调用createContentView()
@@ -70,8 +71,8 @@ class MainActivity : AppCompatActivity(),UITemplate {//让activity实现UITempla
 
 ```
 class UIFragment:Fragment(),UITemplate {
-    override val layoutResId: Int
-    override val centerTitle: String
+    override val mLayoutResId: Int
+    override val mCenterTitle: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return createContentView()
     }
