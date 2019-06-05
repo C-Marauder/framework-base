@@ -16,22 +16,21 @@ internal class ContentCreator:UICreator<View>() {
         constrainSetModel?.let {
 
             it.constraintSet.apply {
-                constrainWidth(model.contentView.id, 0)
-                constrainHeight(model.contentView.id, 0)
-                connect(model.contentView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                connect(model.contentView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                if (it.constrainSetId==-1){
-                    connect(model.contentView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                }else{
-
-                    connect(model.contentView.id, ConstraintSet.TOP, it.constrainSetId, ConstraintSet.BOTTOM)
+                model.contentView?.let {view->
+                    constrainWidth(view.id, 0)
+                    constrainHeight(view.id, 0)
+                    connect(view.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+                    connect(view.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+                    if (it.preView==null){
+                        connect(view.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                    }else{
+                        connect(view.id, ConstraintSet.TOP, it.preView!!.id, ConstraintSet.BOTTOM)
+                    }
+                    connect(view.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
                 }
-                connect(model.contentView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                if (parentView is ConstraintLayout){
-                    applyTo(parentView)
 
-                }
             }
+            it.preView = model.contentView
 
 
         }

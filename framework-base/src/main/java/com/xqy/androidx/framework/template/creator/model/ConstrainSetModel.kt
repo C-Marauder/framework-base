@@ -1,5 +1,11 @@
 package com.xqy.androidx.framework.template.creator.model
 
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 
-data class ConstrainSetModel(var constrainSetId:Int=-1,val constraintSet: ConstraintSet)
+/**
+ *@desc
+ *@creator 小灰灰
+ *@Time 2019-06-05 - 11:39
+ **/
+data class ConstrainSetModel(val constraintSet: ConstraintSet,var preView:View?=null)

@@ -1,6 +1,7 @@
 package com.xqy.androidx.framework.template.creator
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatImageView
@@ -28,12 +29,15 @@ internal class UIStateCreator : UICreator<AppCompatImageView>() {
             )
             model.uiStateCallback?.observeState(this)
             parentView.addView(this)
+            visibility = View.GONE
+
             constrainSetModel?.let {
                 it.constraintSet.apply {
+                    this.setVisibility(mStateViewId,View.GONE)
                     connect(mStateViewId, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
                     connect(mStateViewId, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                    connect(mStateViewId, ConstraintSet.TOP, it.constrainSetId, ConstraintSet.TOP)
-                    connect(mStateViewId, ConstraintSet.BOTTOM, it.constrainSetId, ConstraintSet.BOTTOM)
+                    connect(mStateViewId, ConstraintSet.TOP, it.preView!!.id, ConstraintSet.TOP)
+                    connect(mStateViewId, ConstraintSet.BOTTOM, it.preView!!.id, ConstraintSet.BOTTOM)
                 }
 
             }

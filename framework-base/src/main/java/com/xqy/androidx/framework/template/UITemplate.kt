@@ -1,19 +1,21 @@
 package com.xqy.androidx.framework.template
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import com.google.android.material.circularreveal.CircularRevealLinearLayout
 import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 import com.xqy.androidx.framework.state.UIStateCallback
 import com.xqy.androidx.framework.template.creator.AppbarCreator
 import com.xqy.androidx.framework.template.creator.ContentCreator
+import com.xqy.androidx.framework.template.creator.StatusCreator
 import com.xqy.androidx.framework.template.creator.UIStateCreator
 import com.xqy.androidx.framework.template.creator.model.ConstrainSetModel
 import com.xqy.androidx.framework.template.creator.model.UIModel
+import com.xqy.androidx.framework.utils.dp
 
 
 interface UITemplate {
@@ -24,9 +26,12 @@ interface UITemplate {
         internal var canScroll: Boolean = true
         internal var clearElevation: Boolean = false
         internal var titlePadding: Int = 0
+        internal var mToolbarHeight: Int = 56.dp
+        internal var themeColor: Int = android.R.color.background_light
         fun Builder(init: Builder.() -> Unit) = Builder().apply(init)
     }
-    val isNeedAppbar:Boolean get() =  false
+
+    val isNeedAppbar: Boolean get() = false
     val mTemplate: Int
     val mLayoutResId: Int
     val mCenterTitle: String? get() = null
@@ -58,9 +63,8 @@ interface UITemplate {
     }
 
     fun createContentView(): View {
-
-        var constrainSetModel: ConstrainSetModel? = null
-        val template = when (mTemplate) {
+        var constrainSetModel: ConstrainSetModel?= null
+        val template: ViewGroup = when (mTemplate) {
             SCAFFOLD -> CircularRevealCoordinatorLayout(mActivity)
             CONSTRAINT -> {
                 ConstraintLayout(mActivity).apply {
@@ -78,38 +82,46 @@ interface UITemplate {
             null
         }
         val mUIModel = UIModel(
+            themeColor,
             isNeedAppbar,
+            mToolbarHeight,
             mIsNeedToolbar,
             mToolbarTitle,
             mEnableArrowIcon,
-            inflateContentView(template),
+            null,
             mCenterTitle,
             mUIStateCallback,
             handleNavListener
         )
+        with(StatusCreator()){
+            mNextUICreator = if (mUIModel.isNeedToolbar){
+                AppbarCreator().apply {
+                    val mContentView = inflateContentView(template)
+                    mUIModel.contentView = mContentView
+                    mNextUICreator = ContentCreator().apply {
+                        mUIModel.uiStateCallback?.let {
+                            mNextUICreator = UIStateCreator()
+                        }
+                    }
+                }
 
-        if (mUIModel.isNeedToolbar) {
-            with(AppbarCreator()) {
-                val mContentView = inflateContentView(template)
-                mUIModel.contentView = mContentView
-                mNextUICreator = ContentCreator().apply {
+            }else{
+                ContentCreator().apply {
+                    val mContentView = inflateContentView(template)
+                    mUIModel.contentView = mContentView
                     mUIModel.uiStateCallback?.let {
                         mNextUICreator = UIStateCreator()
                     }
                 }
-                assembleWidget(template, mUIModel, constrainSetModel)
             }
+            assembleWidget(template, mUIModel,constrainSetModel)
 
-        } else {
-            with(ContentCreator()) {
-                val mContentView = inflateContentView(template)
-                mUIModel.contentView = mContentView
-                mUIModel.uiStateCallback?.let {
-                    mNextUICreator = UIStateCreator()
-                }
-                assembleWidget(template, mUIModel, constrainSetModel)
-            }
+        }
 
+
+
+        if (mTemplate== CONSTRAINT){
+            constrainSetModel?.constraintSet!!.applyTo(template as ConstraintLayout)
         }
 
         return template
@@ -123,6 +135,10 @@ interface UITemplate {
 
         fun clearElevation(init: () -> Boolean) {
             clearElevation = init()
+        }
+
+        fun toolbarHeight(init: () -> Int) {
+            mToolbarHeight = init()
         }
 
         fun behavior(init: () -> Boolean) {
@@ -139,6 +155,10 @@ interface UITemplate {
 
         fun navIcon(init: () -> Int) {
             navIcon = init()
+        }
+
+        fun themeColor(init: () -> Int) {
+            themeColor = init()
         }
 
     }

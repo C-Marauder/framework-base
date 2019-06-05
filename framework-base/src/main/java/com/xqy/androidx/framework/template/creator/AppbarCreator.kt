@@ -1,11 +1,10 @@
 package com.xqy.androidx.framework.template.creator
 
-import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +13,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
-import com.xqy.androidx.framework.R
 import com.xqy.androidx.framework.template.UITemplate
 import com.xqy.androidx.framework.template.creator.model.ConstrainSetModel
 import com.xqy.androidx.framework.template.creator.model.UIModel
 import com.xqy.androidx.framework.utils.dp
 
-internal class AppbarCreator: UICreator<AppBarLayout>() {
+internal class AppbarCreator : UICreator<AppBarLayout>() {
 
 
     companion object {
@@ -30,31 +28,34 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
         @SuppressLint("ResourceType")
         @IdRes
         private const val toolbarId = 0x12
+
     }
+
     override fun createWidget(parentView: ViewGroup, model: UIModel, constrainSetModel: ConstrainSetModel?) {
-       val topView = if (model.isNeedAppbar){
+
+        val topView = if (model.isNeedAppbar) {
             AppBarLayout(parentView.context).apply {
                 id = appId
                 clearAppbarElevation(this)
                 unEnableScroll(this)
-                addView(createToolbar(this,model),-1,-2)
+                addView(createToolbar(this, model), -1, -2)
 
             }
-        }else{
-           Log.e("===","==")
-            createToolbar(parentView,model)
+        } else {
+            createToolbar(parentView, model)
 
         }
-        parentView.addView(topView,-1,-2)
+        parentView.addView(topView, -1, -2)
         constrainSetModel?.let {
-            it.constrainSetId = topView.id
             it.constraintSet.apply {
                 constrainWidth(topView.id, 0)
-                constrainHeight(topView.id, 56.dp)
-                connect(topView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                constrainHeight(topView.id, model.toolbarHeight)
+                connect(topView.id, ConstraintSet.TOP, it.preView!!.id, ConstraintSet.BOTTOM)
                 connect(topView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
                 connect(topView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
             }
+            it.preView = topView
+
 
         }
 
@@ -79,11 +80,12 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
     }
 
 
-    private fun createToolbar(parentView: ViewGroup,model: UIModel):Toolbar{
+    private fun createToolbar(parentView: ViewGroup, model: UIModel): Toolbar {
         val mContext = parentView.context as AppCompatActivity
         return Toolbar(mContext).apply {
             id = toolbarId
-            val middleTitleView = createMiddleTitleView(this,model.centerTitle)
+            setBackgroundResource(model.themeColor)
+            val middleTitleView = createMiddleTitleView(this, model.centerTitle)
             addView(middleTitleView, -2, -1)
             val lp = middleTitleView.layoutParams as Toolbar.LayoutParams
             lp.gravity = Gravity.CENTER
@@ -116,7 +118,7 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
         }
     }
 
-    private fun createMiddleTitleView(parentView:ViewGroup,centerTitle: String? = null): AppCompatTextView {
+    private fun createMiddleTitleView(parentView: ViewGroup, centerTitle: String? = null): AppCompatTextView {
         return AppCompatTextView(parentView.context).apply {
             this.gravity = Gravity.CENTER
             this.setTextSize(
@@ -124,9 +126,11 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
                 UITemplate.titleSize
             )
             this.setTextColor(
-                ContextCompat.getColor(context,
+                ContextCompat.getColor(
+                    context,
                     UITemplate.titleColor
-                ))
+                )
+            )
             this.text = centerTitle
 
         }

@@ -16,6 +16,7 @@ import com.xqy.androidx.framework.template.CONSTRAINT
 import com.xqy.androidx.framework.template.SCAFFOLD
 import com.xqy.androidx.framework.template.UITemplate
 import com.xqy.androidx.framework.utils.appLog
+import com.xqy.androidx.framework.utils.transparentStatusBar
 import com.xqy.androidx.permission.PermissionHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.ConcurrentHashMap
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(), UITemplate,
     //var mUserId:Int by AppPreference(application,123)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        transparentStatusBar()
         setContentView(createContentView())
         PermissionHelper.from(this)
             .requestPermission(Manifest.permission.SYSTEM_ALERT_WINDOW, hasPermission = { permission ->
