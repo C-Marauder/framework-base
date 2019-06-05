@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import com.google.android.material.circularreveal.CircularRevealLinearLayout
 import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 import com.xqy.androidx.framework.state.UIStateCallback
 import com.xqy.androidx.framework.template.creator.AppbarCreator
