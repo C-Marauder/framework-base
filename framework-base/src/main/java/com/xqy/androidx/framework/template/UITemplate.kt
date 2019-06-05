@@ -1,5 +1,6 @@
 package com.xqy.androidx.framework.template
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,7 @@ interface UITemplate {
         internal var titlePadding: Int = 0
         fun Builder(init: Builder.() -> Unit) = Builder().apply(init)
     }
-
+    val isNeedAppbar:Boolean get() =  false
     val mTemplate: Int
     val mLayoutResId: Int
     val mCenterTitle: String? get() = null
@@ -77,6 +78,7 @@ interface UITemplate {
             null
         }
         val mUIModel = UIModel(
+            isNeedAppbar,
             mIsNeedToolbar,
             mToolbarTitle,
             mEnableArrowIcon,

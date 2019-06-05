@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), UITemplate,
     override val mEmptyResId: Int by lazy {
         R.drawable.ic_empty
     }
+    override val isNeedAppbar: Boolean = false
     override val mToolbarTitle: String = "fff"
     override val mLayoutResId: Int = R.layout.activity_main
     private val adapterMap: ConcurrentHashMap<MVVMViewHolder<String, ItemBinding>, Int> by lazy {

@@ -3,6 +3,7 @@ package com.xqy.androidx.framework.template.creator
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.xqy.androidx.framework.R
 import com.xqy.androidx.framework.template.UITemplate
 import com.xqy.androidx.framework.template.creator.model.ConstrainSetModel
 import com.xqy.androidx.framework.template.creator.model.UIModel
+import com.xqy.androidx.framework.utils.dp
 
 internal class AppbarCreator: UICreator<AppBarLayout>() {
 
@@ -24,26 +26,38 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
     companion object {
         @SuppressLint("ResourceType")
         @IdRes
-        private const val appId = 0x1
+        private const val appId = 0x11
+        @SuppressLint("ResourceType")
+        @IdRes
+        private const val toolbarId = 0x12
     }
     override fun createWidget(parentView: ViewGroup, model: UIModel, constrainSetModel: ConstrainSetModel?) {
-        AppBarLayout(parentView.context).apply {
-            id = appId
-            clearAppbarElevation(this)
-            unEnableScroll(this)
-            createToolbar(this,model)
-            parentView.addView(this, -1, -2)
-            constrainSetModel?.let {
-                it.constrainSetId = appId
-                it.constraintSet.apply {
-                    constrainWidth(appId, 0)
-                    connect(appId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                    connect(appId, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                    connect(appId, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                }
+       val topView = if (model.isNeedAppbar){
+            AppBarLayout(parentView.context).apply {
+                id = appId
+                clearAppbarElevation(this)
+                unEnableScroll(this)
+                addView(createToolbar(this,model),-1,-2)
 
             }
+        }else{
+           Log.e("===","==")
+            createToolbar(parentView,model)
+
         }
+        parentView.addView(topView,-1,-2)
+        constrainSetModel?.let {
+            it.constrainSetId = topView.id
+            it.constraintSet.apply {
+                constrainWidth(topView.id, 0)
+                constrainHeight(topView.id, 56.dp)
+                connect(topView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                connect(topView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+                connect(topView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            }
+
+        }
+
     }
 
 
@@ -57,19 +71,18 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
     private fun clearAppbarElevation(appBarLayout: AppBarLayout) {
         if (UITemplate.clearElevation) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                appBarLayout.stateListAnimator = AnimatorInflater.loadStateListAnimator(
-                    appBarLayout.context,
-                    R.animator.appbar_elevation
-                )
+                appBarLayout.elevation = 0f
+
             }
 
         }
     }
 
 
-    private fun createToolbar(parentView: ViewGroup,model: UIModel){
+    private fun createToolbar(parentView: ViewGroup,model: UIModel):Toolbar{
         val mContext = parentView.context as AppCompatActivity
-        Toolbar(mContext).apply {
+        return Toolbar(mContext).apply {
+            id = toolbarId
             val middleTitleView = createMiddleTitleView(this,model.centerTitle)
             addView(middleTitleView, -2, -1)
             val lp = middleTitleView.layoutParams as Toolbar.LayoutParams
@@ -100,7 +113,6 @@ internal class AppbarCreator: UICreator<AppBarLayout>() {
                     mContext.onBackPressed()
                 }
             }
-            parentView.addView(this, -1, -2)
         }
     }
 

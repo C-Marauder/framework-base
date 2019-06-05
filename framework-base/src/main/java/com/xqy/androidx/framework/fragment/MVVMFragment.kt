@@ -17,6 +17,7 @@ abstract class MVVMFragment<T:ViewDataBinding>:BaseFragment<T>(), UITemplate {
     open val enableMenu:Boolean = false
     override fun inflateContentView(rootView: ViewGroup): View {
         mViewDataBinding = DataBindingUtil.inflate(layoutInflater,mLayoutResId,rootView,false)
+        onCreatingView(mViewDataBinding)
         return mViewDataBinding.root
     }
 

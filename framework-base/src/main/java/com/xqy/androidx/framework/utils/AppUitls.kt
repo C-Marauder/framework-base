@@ -35,10 +35,12 @@ inline fun <reified T:RecyclerView> T.initRV(init:(rv:RecyclerView)->Unit){
     init(this)
 
 }
-inline fun <reified T : RecyclerView> T.initRecyclerView(): DelegateAdapter {
+
+inline fun <reified T : RecyclerView> T.initRecyclerView(custom:(rv:RecyclerView)->Unit): DelegateAdapter {
     this.setHasFixedSize(true)
     val mLayoutManager = VirtualLayoutManager(this.context)
     this.layoutManager = mLayoutManager
+    custom(this)
     val delegateAdapter = DelegateAdapter(mLayoutManager, true)
     this.adapter = delegateAdapter
     return delegateAdapter

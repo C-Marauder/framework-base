@@ -13,7 +13,7 @@ internal abstract class UICreator<T:View>{
    fun assembleWidget(parentView: ViewGroup, model: UIModel, constrainSetModel: ConstrainSetModel?=null){
       createWidget(parentView,model,constrainSetModel)
       if (::mNextUICreator.isInitialized){
-         mNextUICreator.assembleWidget(parentView,model)
+         mNextUICreator.assembleWidget(parentView,model,constrainSetModel)
       }
    }
 

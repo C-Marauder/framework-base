@@ -4,6 +4,7 @@ import android.view.View
 import com.xqy.androidx.framework.state.UIStateCallback
 
 data class UIModel(
+    val isNeedAppbar:Boolean,
     val isNeedToolbar:Boolean,
     val toolbarTitle: String,
     val enableArrowIcon: Boolean,
